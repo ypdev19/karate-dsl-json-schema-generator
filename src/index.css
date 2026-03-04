@@ -1,0 +1,7 @@
+body {
+    background-color: #f8f9fa;
+  }
+  
+  .ace_editor {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  }
