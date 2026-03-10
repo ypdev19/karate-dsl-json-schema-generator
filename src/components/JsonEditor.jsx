@@ -4,7 +4,7 @@ import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-json';
 import 'ace-builds/src-noconflict/theme-monokai';
 
-const JsonEditor = ({ value, onChange, readOnly = false, height = '500px' }) => {
+const JsonEditor = ({ value, onChange, readOnly = false, height = '500px', isError = false }) => {
   return (
     <AceEditor
       mode="json"
@@ -25,6 +25,10 @@ const JsonEditor = ({ value, onChange, readOnly = false, height = '500px' }) => 
         enableSnippets: false,
         showLineNumbers: true,
         tabSize: 2,
+      }}
+      style={{
+        border: isError ? '2px solid #dc3545' : '1px solid #dee2e6',
+        borderRadius: '4px',
       }}
     />
   );

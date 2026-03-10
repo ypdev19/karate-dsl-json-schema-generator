@@ -4,10 +4,16 @@
   "description": "A free tool to convert JSON to valid Karate DSL compatible JSON Schema",
   "type": "module",
   "scripts": {
+    "clean": "rm -rf node_modules package-lock.json",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "test": "ava"
+  },
+  "ava": {
+    "files": ["index.test.js"],
+    "extensions": ["js"],
+    "timeout": "60s"
   },
   "repository": {
     "type": "git",
@@ -28,12 +34,12 @@
   },
   "homepage": "https://github.com/ypdev19/karate-dsl-json-schema-generator#readme",
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-bootstrap": "^2.9.0",
+    "ace-builds": "^1.43.6",
     "bootstrap": "^5.3.0",
+    "react": "^18.3.1",
     "react-ace": "^10.1.0",
-    "ace-builds": "^1.32.0"
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.0",

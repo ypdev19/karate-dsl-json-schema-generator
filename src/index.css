@@ -1,7 +1,30 @@
+/* src/index.css */
+
+/* Global styles for the Karate JSON Schema Converter */
+
 body {
-    background-color: #f8f9fa;
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Ace Editor container */
+.ace_editor {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+/* Card styling */
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Button hover effects */
+.btn:hover {
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .card {
+    margin-bottom: 1rem;
   }
-  
-  .ace_editor {
-    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-  }
+}
