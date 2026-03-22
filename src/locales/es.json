@@ -1,0 +1,30 @@
+{
+    "navbar": {
+      "home": "Inicio",
+      "backToHome": "Inicio"
+    },
+    "footer": {
+      "copyrightPrefix": "© {{year}} ",
+      "copyrightSuffix": ", Todos los derechos reservados.",
+      "brandName": "CodeQAZone",
+      "termsOfService": "Términos de Servicio",
+      "privacyPolicy": "Política de Privacidad"
+    },
+    "app": {
+      "title": "Convertidor JSON a Esquema Karate DSL",
+      "loadBaseDemo": "Cargar Demo Básico",
+      "loadAdvancedDemo": "Cargar Demo Avanzado",
+      "requiredFields": "Campos Requeridos (separados por comas)",
+      "requiredFieldsHelp": "Dejar vacío para tratar todos los campos como requeridos.",
+      "convertToSchema": "Convertir a Esquema",
+      "showSnippet": "Mostrar Fragmento",
+      "hideSnippet": "Ocultar Fragmento",
+      "inputJson": "JSON de Entrada",
+      "generatedSchema": "Esquema Karate Generado",
+      "karateSnippet": "Fragmento Karate DSL",
+      "copy": "Copiar",
+      "copySnippet": "Copiar Fragmento",
+      "invalidJson": "Formato JSON inválido. Verifique su entrada.",
+      "copySuccess": "¡Copiado al portapapeles!"
+    }
+  }

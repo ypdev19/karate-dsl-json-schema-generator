@@ -1,3 +1,11 @@
+// schemaConverter.js: JSON parsing → Karate DSL generation
+/**
+ * Core logic engine. 
+ * Responsibilities: JSON parsing, type inference, schema traversal, Karate DSL generation, snippet formatting
+ * Core concepts: recursive parsing, object traversal, array schema inference, required field resolution.
+ * 
+ */
+
 /**
  * Checks if value is a plain object
  */

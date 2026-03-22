@@ -22,6 +22,83 @@ body {
   transition: all 0.2s ease;
 }
 
+/* Theme variables */
+[data-bs-theme="dark"] {
+  --bs-body-bg: #212529;
+  --bs-body-color: #dee2e6;
+}
+
+[data-bs-theme="light"] {
+  --bs-body-bg: #ffffff;
+  --bs-body-color: #212529;
+}
+
+/* App theme classes */
+body.light {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+body.dark {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+/* Navbar shadow */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Toast positioning */
+.copy-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: white;
+  background: linear-gradient(45deg, #28a745, #20c997);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Footer enhancements */
+footer {
+  margin-top: auto;
+}
+
+footer a {
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+footer a:hover {
+  color: #0d6efd !important;
+  text-decoration: none;
+}
+
+/* Theme-aware footer links */
+[data-bs-theme="dark"] footer a:hover {
+  color: #4dabf7 !important;
+}
+
+[data-bs-theme="light"] footer a:hover {
+  color: #0d6efd !important;
+}
+
+/* Responsive footer gap */
+@media (max-width: 768px) {
+  footer .gap-3 {
+    gap: 1rem;
+  }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .card {

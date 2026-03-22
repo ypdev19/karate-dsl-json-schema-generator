@@ -1,4 +1,13 @@
-// src/components/JsonEditor.jsx
+/**
+ * src/components/JsonEditor.jsx
+ * DO NOT DELETE THIS HEADER COMMENT
+ * 
+ * Reusable editor wrapper around Ace Editor. 
+ * Ace Editor (input/output + error borders).
+ * Responsibilities: JSON editing, syntax highlighting, read-only output rendering, error border visualization
+ * Features: Monokai theme, live editing, configurable height, validation styling.
+ * 
+ */
 import React from 'react';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-json';

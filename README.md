@@ -20,7 +20,7 @@ console.log(jsonSchema);
 
 ## example
 
-### Base
+## Base
 
 Input:
 
@@ -75,7 +75,7 @@ Output:
 }
 ```
 
-### Advance
+## Advance
 
 Input:
 
@@ -200,78 +200,29 @@ Output:
 TODO
 
 - [x] Base Project set up and package update
-- [] Add Nav bar and footer components
+- [x] Add Nav bar and footer components
 - [] Language switch
-- [] Theme switch
+- [x] Theme switch
+- [] UI improvements
+- [] Unit tests
 
-<https://app.blackbox.ai/chat/7SilKKP>
+Important to keep under consideration for what we're going to do:
 
-I am about to do a new project, a karate dsl json schema converter, which is a tool where user can paste or upload a json and then the tool will convert it to a valid json schema for karate dsl which we know is different to an actual json schema.
+- Provide comments in the code.
+- Keep the good practice of implementing functional components.
+- Follow coding best practices.
+- If you need an existing code, ask for it.
+- By the time we complete this part, update this same prompt (project structure, project summary)
 
-Now, as a start anb before going in deep with requirements I need you to modify a base project that already takes a json to convert it into a json schema as we know it. I want:
+In next prompt I will send the full code base that I got so far so you can implement this requirements.
 
-1. Update dependencies in package.json
-2. Include react and react boostrap and vite if necessary and any other dependency necessary for the project
-3. Modernize the frontend style but don't change structure just yet, only to use react bootstrap and be responsive
-4. Organize the existing code using functional components and modern javascript/react good practices
-5. Create a project summary based on this new changes that highlights the project new folder structure, what is it about and tech stack.
+Now, let's get into the actual project requirements:
 
-Here's the structure and code:
+-----------------------------
 
-```console
+<https://app.blackbox.ai/chat/qmoiBVV>
+<https://app.blackbox.ai/chat/QgczNPm>
 
-├─ index.js
-├─ index.test.js
-├─ index.html
-├─ .gitignore
-├─ package.json
-```
+-----------------------------
 
------
-
-### Project Summary
-
-#### Project Name:** Karate JSON Schema Converter (Frontend Foundation)
-
-#### Description
-
-This project is the foundational frontend for a tool designed to convert standard JSON structures into JSON Schemas compatible with the Karate DSL testing framework. The current version modernizes the legacy vanilla JS implementation into a scalable React application. It provides a user-friendly interface to paste JSON, visualize the generated schema, and prepare the ground for future Karate-specific schema transformations.
-
-#### **Tech Stack**
-
-- **Build Tool:** Vite (Fast, modern bundler)
-
-- **Framework:** React 18 (Functional Components, Hooks)
-
-- **UI Library:** React Bootstrap 5 (Responsive, accessible components)
-
-- **Code Editor:** React-Ace (Ace Editor wrapper for JSON syntax highlighting)
-
-- **Testing:** AVA (Node.js test runner)
-
-- **Language:** Modern JavaScript (ES Modules)
-
-#### New Folder Structure
-
-```text
-├─ public/
-│  └─ index.html          # Minimal HTML entry point
-├─ src/
-│  ├─ components/
-│  │  └─ JsonEditor.jsx   # Reusable Ace Editor wrapper
-│  ├─ utils/
-│  │  └─ schemaConverter.js # Core conversion logic (extracted from index.js)
-│  ├─ App.jsx             # Main Application Logic
-│  ├─ main.jsx            # React Entry Point
-│  └─ index.css           # Global Styles
-├─ index.test.js           # Unit Tests (Updated path)
-├─ package.json            # Dependencies & Scripts
-├─ vite.config.js          # Vite Configuration
-└─ .gitignore
-```
-
-#### Key Improvements
-
-1. **Component Architecture:** Logic is separated from UI. The `schemaConverter.js` can be tested independently of the React UI.
-2. **Responsiveness:** The layout now uses Bootstrap's Grid system (`Col md={6}`), making it work on mobile and desktop.
-3. **Modern Syntax:** Replaced `var` with `const`/`let`, and used ES.
+Business Value: Saves **hours of manual Karate schema creation** per tester. Provides production-grade UX with theming, internationalization readiness, and persistent settings. Enables rapid API test development with consistent DSL syntax across global teams. Perfect onboarding tool for Karate Framework adoption.

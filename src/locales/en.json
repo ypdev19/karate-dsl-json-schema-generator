@@ -1,0 +1,30 @@
+{
+    "navbar": {
+      "home": "Home",
+      "backToHome": "Home"
+    },
+    "footer": {
+      "copyrightPrefix": "© {{year}} ",
+      "copyrightSuffix": " . All rights reserved.",
+      "brandName": "CodeQAZone",
+      "termsOfService": "Terms of Service",
+      "privacyPolicy": "Privacy Policy"
+    },
+    "app": {
+      "title": "JSON to Karate DSL Schema Converter",
+      "loadBaseDemo": "Load Base Demo",
+      "loadAdvancedDemo": "Load Advanced Demo",
+      "requiredFields": "Required Fields (comma separated)",
+      "requiredFieldsHelp": "Leave empty to treat all fields as required.",
+      "convertToSchema": "Convert to Schema",
+      "showSnippet": "Show Snippet",
+      "hideSnippet": "Hide Snippet",
+      "inputJson": "Input JSON",
+      "generatedSchema": "Generated Karate Schema",
+      "karateSnippet": "Karate DSL Snippet",
+      "copy": "Copy",
+      "copySnippet": "Copy Snippet",
+      "invalidJson": "Invalid JSON format. Please check your input.",
+      "copySuccess": "Copied to clipboard!"
+    }
+  }
