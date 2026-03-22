@@ -1,18 +1,30 @@
 /**
- * App.jsx: Full layout orchestrator (flex-column min-vh-100)
+ * App.jsx: Full layout orchestrator with i18n support
+ * Flex-column min-vh-100 layout, theme-aware, responsive
  */
 import React, { useState, useCallback } from 'react';
 import { Container } from 'react-bootstrap';
-import { useGlobalContext } from './hooks/useGlobalContext';
+import { useGlobalContext } from './contexts/GlobalContext';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import JsonEditor from './components/JsonEditor';
-import { generateKarateSchema, generateKarateSnippet } from './utils/schemaConverter';
-import { loadDemo, triggerToast, copyToClipboard, DEMO_DATA } from './utils/appUtils';
+
+import { 
+  generateKarateSchema, 
+  generateKarateSnippet 
+} from './utils/schemaConverter';
+
+import { 
+  loadDemo, 
+  copyToClipboard, 
+  triggerToast,
+  DEMO_DATA 
+} from './utils/appUtils';
+
 import './index.css';
 
 function App() {
-  const { theme } = useGlobalContext();
+  const { theme, t } = useGlobalContext();
 
   // State
   const [inputJson, setInputJson] = useState(JSON.stringify(DEMO_DATA.base, null, 2));
@@ -23,13 +35,10 @@ function App() {
   const [showSnippet, setShowSnippet] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
-  // Memoized toast trigger
-  const toastTrigger = useCallback(() => triggerToast(setShowToast), []);
-
   /**
    * Convert JSON → Karate Schema
    */
-  const handleConvert = () => {
+  const handleConvert = useCallback(() => {
     setError(null);
     setOutputSchema('');
     setIsInputError(false);
@@ -39,27 +48,47 @@ function App() {
       const result = generateKarateSchema(parsed, requiredFields);
       setOutputSchema(result);
     } catch (err) {
-      setError('Invalid JSON format. Please check your input.');
+      setError(t('app.invalidJson'));
       setIsInputError(true);
-      console.error(err);
+      console.error('JSON Parse Error:', err);
     }
-  };
+  }, [inputJson, requiredFields, t]);
 
   /**
-   * Copy handlers (using shared utility)
+   * Copy Schema to Clipboard
    */
-  const handleCopy = () => copyToClipboard(outputSchema, setError, toastTrigger);
-  const handleCopySnippet = () => {
+  const handleCopy = useCallback(() => {
+    if (!outputSchema) return;
+    
+    copyToClipboard(
+      outputSchema,
+      setError,
+      () => triggerToast(setShowToast, t('app.copySuccess')),
+      t('app.copySuccess')
+    );
+  }, [outputSchema, t]);
+
+  /**
+   * Copy Karate Snippet to Clipboard
+   */
+  const handleCopySnippet = useCallback(() => {
+    if (!outputSchema) return;
+    
     const snippet = generateKarateSnippet(outputSchema);
-    copyToClipboard(snippet, setError, toastTrigger);
-  };
+    copyToClipboard(
+      snippet,
+      setError,
+      () => triggerToast(setShowToast, t('app.copySuccess')),
+      t('app.copySuccess')
+    );
+  }, [outputSchema, t]);
 
   /**
-   * Demo loader (using shared utility)
+   * Load Demo Data
    */
-  const handleLoadDemo = (type) => {
+  const handleLoadDemo = useCallback((type) => {
     loadDemo(type, setInputJson, setOutputSchema, setError, setIsInputError);
-  };
+  }, []);
 
   return (
     <div className={`d-flex flex-column min-vh-100 ${theme}`}>
@@ -67,9 +96,8 @@ function App() {
       
       <main className={`flex-grow-1 ${theme}`}>
         <Container fluid className="py-4">
-          <h1 className="text-center mb-4">
-            JSON to Karate DSL Schema Converter
-          </h1>
+          {/* Title */}
+          <h1 className="text-center mb-4">{t('app.title')}</h1>
 
           {/* Demo Buttons */}
           <div className="row mb-3 text-center">
@@ -78,13 +106,13 @@ function App() {
                 className="btn btn-outline-primary me-2" 
                 onClick={() => handleLoadDemo('base')}
               >
-                Load Base Demo
+                {t('app.loadBaseDemo')}
               </button>
               <button 
                 className="btn btn-success" 
                 onClick={() => handleLoadDemo('advance')}
               >
-                Load Advanced Demo
+                {t('app.loadAdvancedDemo')}
               </button>
             </div>
           </div>
@@ -94,22 +122,23 @@ function App() {
             <div className="col-md-12">
               <div className="mb-3">
                 <label className="form-label fw-semibold">
-                  Required Fields (comma separated)
+                  {t('app.requiredFields')}
                 </label>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Example: id, name, user.email"
+                  placeholder={t('app.requiredFields')}
                   value={requiredFields}
                   onChange={(e) => setRequiredFields(e.target.value)}
                 />
                 <div className="form-text">
-                  Leave empty to treat all fields as required.
+                  {t('app.requiredFieldsHelp')}
                 </div>
               </div>
             </div>
           </div>
 
+          {/* Error Alert */}
           {error && (
             <div className="alert alert-danger alert-dismissible fade show" role="alert">
               {error}
@@ -118,16 +147,17 @@ function App() {
                 className="btn-close" 
                 onClick={() => setError(null)}
                 aria-label="Close"
-              ></button>
+              />
             </div>
           )}
 
+          {/* Editors Layout */}
           <div className="row">
-            {/* INPUT */}
+            {/* INPUT EDITOR */}
             <div className="col-md-6 mb-3">
               <div className="card h-100">
                 <div className="card-header">
-                  Input JSON
+                  {t('app.inputJson')}
                 </div>
                 <div className="card-body p-0">
                   <JsonEditor
@@ -140,17 +170,17 @@ function App() {
               </div>
             </div>
 
-            {/* OUTPUT */}
+            {/* OUTPUT EDITOR */}
             <div className="col-md-6 mb-3">
               <div className="card h-100">
                 <div className="card-header d-flex justify-content-between align-items-center">
-                  Generated Karate Schema
+                  {t('app.generatedSchema')}
                   <button
                     className="btn btn-sm btn-outline-secondary"
                     onClick={handleCopy}
                     disabled={!outputSchema}
                   >
-                    Copy
+                    {t('app.copy')}
                   </button>
                 </div>
                 <div className="card-body p-0">
@@ -164,14 +194,14 @@ function App() {
             </div>
           </div>
 
-          {/* ACTIONS */}
+          {/* Action Buttons */}
           <div className="row mt-4 text-center">
             <div className="col-md-6 mx-auto">
               <button 
                 className="btn btn-primary btn-lg w-100 mb-3" 
                 onClick={handleConvert}
               >
-                Convert to Schema
+                {t('app.convertToSchema')}
               </button>
 
               <button
@@ -179,27 +209,27 @@ function App() {
                 disabled={!outputSchema}
                 onClick={() => setShowSnippet(!showSnippet)}
               >
-                {showSnippet ? 'Hide Snippet' : 'Show Snippet'}
+                {showSnippet ? t('app.hideSnippet') : t('app.showSnippet')}
               </button>
             </div>
           </div>
 
-          {/* SNIPPET */}
+          {/* KARATE SNIPPET */}
           {showSnippet && outputSchema && (
             <div className="row mt-4">
               <div className="col">
                 <div className="card">
                   <div className="card-header d-flex justify-content-between align-items-center">
-                    Karate DSL Snippet
+                    {t('app.karateSnippet')}
                     <button
                       className="btn btn-sm btn-outline-secondary"
                       onClick={handleCopySnippet}
                     >
-                      Copy Snippet
+                      {t('app.copySnippet')}
                     </button>
                   </div>
                   <div className="card-body p-0">
-                    <pre className="p-3 m-0 bg-light small">
+                    <pre className="p-3 m-0 bg-light small overflow-auto">
                       {generateKarateSnippet(outputSchema)}
                     </pre>
                   </div>
@@ -210,10 +240,10 @@ function App() {
         </Container>
       </main>
 
-      {/* TOAST */}
+      {/* Success Toast */}
       {showToast && (
-        <div className="copy-toast">
-          Copy to Clipboard!
+        <div className="copy-toast position-fixed bottom-0 end-0 m-3">
+          {t('app.copySuccess')}
         </div>
       )}
 

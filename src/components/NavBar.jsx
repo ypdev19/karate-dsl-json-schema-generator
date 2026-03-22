@@ -1,14 +1,11 @@
-/**
- * NavBar.jsx: Theme toggle, Language dropdown (EN/ES)
- */
 import React from 'react';
 import { Navbar, Nav, Container, Button, Dropdown } from 'react-bootstrap';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { MdTranslate } from 'react-icons/md';
-import { useGlobalContext } from '../hooks/useGlobalContext';
+import { useGlobalContext } from '../contexts/GlobalContext';
 
 const NavBar = () => {
-  const { theme, toggleTheme, language, changeLanguage } = useGlobalContext();
+  const { theme, t, toggleTheme, language, changeLanguage } = useGlobalContext();
 
   return (
     <Navbar 
@@ -16,17 +13,16 @@ const NavBar = () => {
       variant={theme} 
       expand="lg" 
       className="shadow-sm"
-      data-bs-theme={theme}  // Bootstrap 5 theme support
+      data-bs-theme={theme}
     >
       <Container fluid>
         <Navbar.Brand href="#home">
-          JSON → Karate DSL Converter
+          {t('app.title')}
         </Navbar.Brand>
         
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav">
           <Nav className="ms-auto align-items-center">
-            
             {/* Language Dropdown */}
             <Dropdown className="me-3">
               <Dropdown.Toggle
