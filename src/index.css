@@ -11,6 +11,7 @@ body {
 .ace_editor {
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
 }
+
 /* Card styling */
 .card {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
@@ -42,6 +43,38 @@ body.light {
 body.dark {
   background-color: #121212;
   color: #e0e0e0;
+}
+
+/* 🎯 CRITICAL FIX: THEME-AWARE FORM INPUTS & PLACEHOLDERS */
+.dark .form-control {
+  color: #e9ecef !important;
+  background-color: #343a40 !important;
+  border-color: #495057 !important;
+}
+
+.dark .form-control::placeholder {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+.light .form-control {
+  color: #212529 !important;
+  background-color: #ffffff !important;
+  border-color: #ced4da !important;
+}
+
+.light .form-control::placeholder {
+  color: #6c757d !important;
+  opacity: 1 !important;
+}
+
+/* Form text (help text) theme awareness */
+.dark .form-text {
+  color: #adb5bd !important;
+}
+
+.light .form-text {
+  color: #6c757d !important;
 }
 
 /* Navbar shadow */
@@ -104,4 +137,78 @@ footer a:hover {
   .card {
     margin-bottom: 1rem;
   }
+}
+
+/* 🆕 ACE EDITOR THEME FIX - Add to end of index.css */
+.ace_editor {
+  border-radius: 0.375rem !important;
+}
+
+/* DARK MODE: Full dark editor */
+body.dark .ace_editor,
+body.dark .ace_editor .ace_gutter {
+  background-color: #1e1e1e !important;
+  border-color: #404040 !important;
+  color: #d4d4d4 !important;
+}
+
+body.dark .ace_editor .ace_gutter-cell {
+  border-right: 1px solid #404040 !important;
+  color: #858585 !important;
+}
+
+/* LIGHT MODE: Full light editor */
+body.light .ace_editor,
+body.light .ace_editor .ace_gutter {
+  background-color: #ffffff !important;
+  border-color: #dee2e6 !important;
+  color: #212529 !important;
+}
+
+body.light .ace_editor .ace_gutter-cell {
+  border-right: 1px solid #dee2e6 !important;
+  color: #6c757d !important;
+}*/
+
+/* Editor container cards - match Ace perfectly */
+body.dark .ace-container {
+  background-color: #1e1e1e !important;
+  border-color: #404040 !important;
+}
+
+body.light .ace-container {
+  background-color: #ffffff !important;
+  border-color: #dee2e6 !important;
+}
+
+/* 🆕 ACTIVE LINE HIGHLIGHT - Theme perfect */
+body.dark .ace_editor .ace_active-line {
+  background-color: rgba(68, 68, 68, 0.3) !important;
+  border-left: 1px solid #f1f5f9 !important; /* Blue accent */
+}
+
+body.dark .ace_editor .ace_marker-layer .ace_active-line {
+  background-color: rgba(68, 68, 68, 0.3) !important;
+}
+
+body.light .ace_editor .ace_active-line {
+  background-color: rgba(0, 123, 255, 0.08) !important; /* Subtle blue tint */
+  border-left: 1px solid #ffffff !important; /* WHITE accent */
+}
+
+body.light .ace_editor .ace_marker-layer .ace_active-line {
+  background-color: rgba(0, 123, 255, 0.08) !important;
+}
+
+/* 🆕 GUTTER ACTIVE LINE NUMBER - Theme perfect */
+body.dark .ace_editor .ace_gutter-active-line,
+body.dark .ace_editor .ace_gutter-layer .ace_active-line {
+  background-color: rgba(79, 156, 217, 0.2) !important; /* Subtle blue */
+  border-right: 3px solid #e8ebed !important; /* Blue accent */
+}
+
+body.light .ace_editor .ace_gutter-active-line,
+body.light .ace_editor .ace_gutter-layer .ace_active-line {
+  background-color: rgba(159, 148, 148, 0.9) !important; /* Near-white */
+  border-right: 3px solid #c3c0c0 !important; /* WHITE accent */
 }

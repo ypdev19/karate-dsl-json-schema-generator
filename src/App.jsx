@@ -127,7 +127,7 @@ function App() {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder={t('app.requiredFields')}
+                  placeholder={t('app.inputPlaceholder')}
                   value={requiredFields}
                   onChange={(e) => setRequiredFields(e.target.value)}
                 />
@@ -162,6 +162,7 @@ function App() {
                 <div className="card-body p-0">
                   <JsonEditor
                     value={inputJson}
+                    themeMode={theme}
                     onChange={setInputJson}
                     height="400px"
                     isError={isInputError}
@@ -186,6 +187,7 @@ function App() {
                 <div className="card-body p-0">
                   <JsonEditor
                     value={outputSchema}
+                    themeMode={theme}
                     readOnly
                     height="400px"
                   />

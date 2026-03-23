@@ -8,38 +8,63 @@
  * Features: Monokai theme, live editing, configurable height, validation styling.
  * 
  */
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-json';
-import 'ace-builds/src-noconflict/theme-monokai';
+import 'ace-builds/src-noconflict/theme-monokai';     // Dark
+import 'ace-builds/src-noconflict/theme-tomorrow';    // Light
+import 'ace-builds/src-noconflict/theme-tomorrow_night'; // Dark alt
+import 'ace-builds/src-noconflict/ext-language_tools';
 
-const JsonEditor = ({ value, onChange, readOnly = false, height = '500px', isError = false }) => {
+const JsonEditor = ({ 
+  value, 
+  onChange, 
+  height, 
+  readOnly = false, 
+  isError = false, 
+  themeMode = 'dark'  // New prop!
+}) => {
+  const aceRef = useRef(null);
+
+  // Ace theme mapping
+  const getAceTheme = (mode) => {
+    return mode === 'dark' ? 'tomorrow_night' : 'chrome';
+  };
+
+  const aceTheme = getAceTheme(themeMode);
+
+  useEffect(() => {
+    if (aceRef.current?.editor) {
+      aceRef.current.editor.setReadOnly(readOnly);
+    }
+  }, [readOnly]);
+
   return (
-    <AceEditor
-      mode="json"
-      theme="monokai"
-      name="json-editor"
-      onChange={onChange}
-      value={value}
-      readOnly={readOnly}
-      width="100%"
-      height={height}
-      fontSize={14}
-      showPrintMargin={false}
-      showGutter={true}
-      highlightActiveLine={true}
-      setOptions={{
-        enableBasicAutocompletion: true,
-        enableLiveAutocompletion: true,
-        enableSnippets: false,
-        showLineNumbers: true,
-        tabSize: 2,
-      }}
-      style={{
-        border: isError ? '2px solid #dc3545' : '1px solid #dee2e6',
-        borderRadius: '4px',
-      }}
-    />
+    <div className={`ace-container h-100 ${themeMode}`}>
+      <AceEditor
+        ref={aceRef}
+        mode="json"
+        theme={aceTheme}
+        value={value}
+        onChange={onChange}
+        name="json-editor"
+        editorProps={{ $blockScrolling: true }}
+        height={height}
+        width="100%"
+        showPrintMargin={false}
+        showGutter={!readOnly}
+        highlightActiveLine={!readOnly}
+        setOptions={{
+          enableBasicAutocompletion: true,
+          enableLiveAutocompletion: true,
+          enableSnippets: true,
+          showLineNumbers: true,
+          tabSize: 2,
+        }}
+        className={isError ? 'border-danger' : ''}
+        style={{ borderRadius: '0.375rem' }}
+      />
+    </div>
   );
 };
 

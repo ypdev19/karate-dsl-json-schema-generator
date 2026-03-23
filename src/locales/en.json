@@ -16,6 +16,7 @@
     "loadAdvancedDemo": "Load Advanced Demo",
     "requiredFields": "Required Fields (comma separated)",
     "requiredFieldsHelp": "Leave empty to treat all fields as required.",
+    "inputPlaceholder": "e.g. id, name, user.email, tags",
     "convertToSchema": "Convert to Schema",
     "showSnippet": "Show Snippet",
     "hideSnippet": "Hide Snippet",

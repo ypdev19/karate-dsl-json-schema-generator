@@ -16,6 +16,7 @@
     "loadAdvancedDemo": "Cargar Demo Avanzado",
     "requiredFields": "Campos Requeridos (separados por comas)",
     "requiredFieldsHelp": "Dejar vacío para tratar todos los campos como requeridos.",
+    "inputPlaceholder": "Ejemplo: id, name, user.email, tags",
     "convertToSchema": "Convertir a Esquema",
     "showSnippet": "Mostrar Fragmento",
     "hideSnippet": "Ocultar Fragmento",
