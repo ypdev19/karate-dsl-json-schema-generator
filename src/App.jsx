@@ -1,6 +1,7 @@
 /**
  * App.jsx: Full layout orchestrator with i18n support
  * Flex-column min-vh-100 layout, theme-aware, responsive
+ * ✅ NEW: "Copied!" button feedback (toast removed)
  */
 import React, { useState, useCallback } from 'react';
 import { Container } from 'react-bootstrap';
@@ -17,9 +18,8 @@ import {
 import { 
   loadDemo, 
   copyToClipboard, 
-  triggerToast,
   DEMO_DATA 
-} from './utils/appUtils';
+} from './utils/appUtils';  // ✅ triggerToast REMOVED
 
 import './index.css';
 
@@ -33,7 +33,10 @@ function App() {
   const [error, setError] = useState(null);
   const [isInputError, setIsInputError] = useState(false);
   const [showSnippet, setShowSnippet] = useState(false);
-  const [showToast, setShowToast] = useState(false);
+  
+  // ✅ NEW: Copy button states (toast removed)
+  const [copyStatus, setCopyStatus] = useState('copy');
+  const [snippetStatus, setSnippetStatus] = useState('copy');
 
   /**
    * Convert JSON → Karate Schema
@@ -55,7 +58,7 @@ function App() {
   }, [inputJson, requiredFields, t]);
 
   /**
-   * Copy Schema to Clipboard
+   * Copy Schema to Clipboard + Button Feedback
    */
   const handleCopy = useCallback(() => {
     if (!outputSchema) return;
@@ -63,13 +66,17 @@ function App() {
     copyToClipboard(
       outputSchema,
       setError,
-      () => triggerToast(setShowToast, t('app.copySuccess')),
+      undefined,  // ✅ Toast removed
       t('app.copySuccess')
     );
+    
+    // ✅ Button feedback
+    setCopyStatus('copied');
+    setTimeout(() => setCopyStatus('copy'), 1200);
   }, [outputSchema, t]);
 
   /**
-   * Copy Karate Snippet to Clipboard
+   * Copy Karate Snippet to Clipboard + Button Feedback
    */
   const handleCopySnippet = useCallback(() => {
     if (!outputSchema) return;
@@ -78,9 +85,13 @@ function App() {
     copyToClipboard(
       snippet,
       setError,
-      () => triggerToast(setShowToast, t('app.copySuccess')),
+      undefined,  // ✅ Toast removed
       t('app.copySuccess')
     );
+    
+    // ✅ Button feedback
+    setSnippetStatus('copied');
+    setTimeout(() => setSnippetStatus('copy'), 1200);
   }, [outputSchema, t]);
 
   /**
@@ -177,11 +188,15 @@ function App() {
                 <div className="card-header d-flex justify-content-between align-items-center">
                   {t('app.generatedSchema')}
                   <button
-                    className="btn btn-sm btn-outline-secondary"
+                    className={`btn btn-sm ${
+                      copyStatus === 'copied' 
+                        ? 'btn-success' 
+                        : 'btn-outline-secondary'
+                    }`}
                     onClick={handleCopy}
                     disabled={!outputSchema}
                   >
-                    {t('app.copy')}
+                    {copyStatus === 'copied' ? t('app.copied') : t('app.copy')}
                   </button>
                 </div>
                 <div className="card-body p-0">
@@ -224,10 +239,15 @@ function App() {
                   <div className="card-header d-flex justify-content-between align-items-center">
                     {t('app.karateSnippet')}
                     <button
-                      className="btn btn-sm btn-outline-secondary"
+                      className={`btn btn-sm ${
+                        snippetStatus === 'copied' 
+                          ? 'btn-success' 
+                          : 'btn-outline-secondary'
+                      }`}
                       onClick={handleCopySnippet}
+                      disabled={!outputSchema}
                     >
-                      {t('app.copySnippet')}
+                      {snippetStatus === 'copied' ? t('app.copied') : t('app.copySnippet')}
                     </button>
                   </div>
                   <div className="card-body p-0">
@@ -242,12 +262,7 @@ function App() {
         </Container>
       </main>
 
-      {/* Success Toast */}
-      {showToast && (
-        <div className="copy-toast position-fixed bottom-0 end-0 m-3">
-          {t('app.copySuccess')}
-        </div>
-      )}
+      {/* ✅ TOAST REMOVED */}
 
       <Footer />
     </div>

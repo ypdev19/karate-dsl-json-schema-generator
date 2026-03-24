@@ -51,14 +51,16 @@ export const triggerToast = (setShowToast, message = 'Copied to clipboard!') => 
 };
 
 /**
- * Copy to clipboard with fallback
+ * Copy to clipboard with fallback - TOAST OPTIONAL
  */
 export const copyToClipboard = async (text, setError, triggerToastFn, successMsg) => {
   if (!text) return;
   
   try {
     await navigator.clipboard.writeText(text);
-    triggerToastFn(successMsg || 'Copied!');
+    if (triggerToastFn) {  // ✅ OPTIONAL toast
+      triggerToastFn(successMsg || 'Copied!');
+    }
   } catch {
     // Fallback
     const textArea = document.createElement('textarea');
@@ -68,6 +70,8 @@ export const copyToClipboard = async (text, setError, triggerToastFn, successMsg
     textArea.select();
     document.execCommand('copy');
     document.body.removeChild(textArea);
-    triggerToastFn(successMsg || 'Copied!');
+    if (triggerToastFn) {  // ✅ OPTIONAL toast
+      triggerToastFn(successMsg || 'Copied!');
+    }
   }
 };

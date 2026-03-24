@@ -24,6 +24,7 @@
     "generatedSchema": "Generated Karate Schema",
     "karateSnippet": "Karate DSL Snippet",
     "copy": "Copy",
+    "copied": "Copied!",
     "copySnippet": "Copy Snippet",
     "invalidJson": "Invalid JSON format. Please check your input.",
     "copySuccess": "Copied to clipboard!"
