@@ -1,0 +1,90 @@
+# JSON to Karate DSL Schema Converter Project Overview
+
+Client-side tool converting JSON payloads to Karate DSL validation schemas for QA/API testers. Fully themed, i18n-ready, offline-capable.
+
+## Tech Stack
+
+- Build: Vite | Framework: React 18 (Hooks) | UI: React Bootstrap 5
+- Editor: React-Ace + Ace-Builds | Icons: react-icons | Testing: AVA
+- Contexts: GlobalContext (Theme/Lang) | Storage: localStorage | Lang: ES Modules
+
+## Key Features
+
+- Core: JSON → Karate Schema (recursive objects/arrays), required fields ("id, name, user.email"), type inference (#string/#number/#boolean/#[])
+- UI/UX: Dual Ace Editors (input/output), demo data, clipboard (schema/snippet), toast animations, mobile-first responsive
+- **Theming/i18n**: Dark/Light toggle (**persistent across reloads** ✓), EN/ES support (**localStorage persistent** ✓)
+- Dev: Real-time JSON validation, zero-config, no backend/auth/routing
+- **i18n Complete**: EN/ES full support, interpolation (`{{year}}`), dot-notation keys (`app.title`), **localStorage persistent ACROSS RELOADS ✓**, real-time switching.
+- CSS: Global form-control theming
+## Key Features (UPDATED)
+
+## Application Flow
+
+- Dark theme load (persistent)
+- Navbar: theme/lang selectors
+- Load demo/paste JSON → set required fields
+- Convert → live schema output
+- Copy schema/snippet → toast
+- Sticky footer always visible
+
+## Internal Conversion Logic
+
+JSON: { "id": 101, "user": {"email": "..."}, "tags": ["admin"] }
+↓ parse + traverse + type inference + required resolution
+Karate: { "id": #number, "user": {"email": #string}, "tags": #[] }
+↓ Snippet: Then match response == """{...}"""
+
+## Project Structure
+
+public/
+├── index.html
+└── locales/ (.md files)
+src/
+├── components/
+│   ├── JsonEditor.jsx
+│   ├── NavBar.jsx
+│   └── Footer.jsx
+├── hooks/
+│   └── useGlobalContext.jsx
+│   └── useTranslation.js
+├── contexts/
+│   └── GlobalContext.jsx
+├── locales/
+│   ├── en.json
+│   └── es.json
+├── utils/
+│   ├── schemaConverter.js
+│   └── appUtils.js
+├── App.jsx
+├── main.jsx
+├── index.css
+├── index.test.js
+├── package.json
+├── vite.config.js
+└── .gitignore
+
+Metrics: <100ms conversion, <5s paste→copy, 100% client-side, offline-ready
+
+As next task, the toast design and display placement is awful, it's too big and it displays in the right side of the app, I want to get rid of it and instead, make the button Copy change to Copied! for like a second with a color change maybe and then go back to say Copy.
+If i clicked, that will visually happen and at the same time the actual copy event will trigger.
+
+If that is too complicated, maybe a small alert like of a tooltip size to be displayed on top of the button like floating with message "copy to clipboard"
+
+What's the best UX UI choice?
+
+Important to keep under consideration for what we're going to do:
+
+- Provide comments in the code.
+- Keep the good practice of implementing functional components.
+- Follow coding best practices.
+- If you need an existing code, ask for it.
+- By the time we complete this part, update this same prompt (project structure, project summary)
+
+Here's the code of the GlobalContext.jsx and App.jsx tell me what other code you need to check:
+
+
+
+
+
+
+it should be visible in the center and be small but visible enough for the user to see it
