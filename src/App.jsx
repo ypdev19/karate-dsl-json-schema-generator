@@ -1,10 +1,11 @@
 /**
  * App.jsx: Full layout orchestrator with i18n support
- * Flex-column min-vh-100 layout, theme-aware, responsive
- * ✅ NEW: "Copied!" button feedback (toast removed)
+ * NEW: Dual centered buttons (Convert + Snippet toggle) between editors
+ * Snippet toggle only shows when schema exists (conditional UX)
+ * Flex-column min-vh-100 layout, theme-aware, responsive, mobile-first
  */
 import React, { useState, useCallback } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { useGlobalContext } from './contexts/GlobalContext';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
@@ -19,7 +20,7 @@ import {
   loadDemo, 
   copyToClipboard, 
   DEMO_DATA 
-} from './utils/appUtils';  // ✅ triggerToast REMOVED
+} from './utils/appUtils';
 
 import './index.css';
 
@@ -34,7 +35,7 @@ function App() {
   const [isInputError, setIsInputError] = useState(false);
   const [showSnippet, setShowSnippet] = useState(false);
   
-  // ✅ NEW: Copy button states (toast removed)
+  // Copy button states
   const [copyStatus, setCopyStatus] = useState('copy');
   const [snippetStatus, setSnippetStatus] = useState('copy');
 
@@ -66,11 +67,9 @@ function App() {
     copyToClipboard(
       outputSchema,
       setError,
-      undefined,  // ✅ Toast removed
       t('app.copySuccess')
     );
     
-    // ✅ Button feedback
     setCopyStatus('copied');
     setTimeout(() => setCopyStatus('copy'), 1200);
   }, [outputSchema, t]);
@@ -85,11 +84,9 @@ function App() {
     copyToClipboard(
       snippet,
       setError,
-      undefined,  // ✅ Toast removed
       t('app.copySuccess')
     );
     
-    // ✅ Button feedback
     setSnippetStatus('copied');
     setTimeout(() => setSnippetStatus('copy'), 1200);
   }, [outputSchema, t]);
@@ -107,12 +104,9 @@ function App() {
       
       <main className={`flex-grow-1 ${theme}`}>
         <Container fluid className="py-4">
-          {/* Title 
-          <h1 className="text-center mb-4">{t('app.title')}</h1>*/}
-
           {/* Demo Buttons */}
-          <div className="row mb-3 text-center">
-            <div className="col">
+          <Row className="mb-3 text-center">
+            <Col>
               <button 
                 className="btn btn-outline-primary me-2" 
                 onClick={() => handleLoadDemo('base')}
@@ -125,12 +119,12 @@ function App() {
               >
                 {t('app.loadAdvancedDemo')}
               </button>
-            </div>
-          </div>
+            </Col>
+          </Row>
 
           {/* REQUIRED FIELDS INPUT */}
-          <div className="row mb-3">
-            <div className="col-md-12">
+          <Row className="mb-4">
+            <Col md={12}>
               <div className="mb-3">
                 <label className="form-label fw-semibold">
                   {t('app.requiredFields')}
@@ -142,16 +136,13 @@ function App() {
                   value={requiredFields}
                   onChange={(e) => setRequiredFields(e.target.value)}
                 />
-                {/*<div className="form-text">
-                  {t('app.requiredFieldsHelp')}
-                </div>*/}
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
 
           {/* Error Alert */}
           {error && (
-            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+            <div className="alert alert-danger alert-dismissible fade show mb-4" role="alert">
               {error}
               <button 
                 type="button" 
@@ -162,10 +153,10 @@ function App() {
             </div>
           )}
 
-          {/* Editors Layout */}
-          <div className="row">
+          {/* Editors + Centered Action Buttons Layout */}
+          <div className="editors-container">
             {/* INPUT EDITOR */}
-            <div className="col-md-6 mb-3">
+            <div className="editor-column input-editor">
               <div className="card h-100">
                 <div className="card-header">
                   {t('app.inputJson')}
@@ -175,15 +166,40 @@ function App() {
                     value={inputJson}
                     themeMode={theme}
                     onChange={setInputJson}
-                    height="400px"
+                    height="450px"
                     isError={isInputError}
                   />
                 </div>
               </div>
             </div>
 
+            {/* CENTRAL ACTION BUTTONS - Dual layout */}
+            <div className="convert-button-container">
+              <div className="d-flex flex-column gap-2 justify-content-center align-items-stretch">
+                {/* Convert Button - Always visible */}
+                <button 
+                  className="btn btn-primary btn-lg"
+                  style={{ fontSize: '16px' }}
+                  onClick={handleConvert}
+                >
+                  {t('app.convertToSchema')}
+                </button>
+                
+                {/* Snippet Toggle - Only when schema exists */}
+                {outputSchema && (
+                  <button
+                    className="btn btn-success btn-lg"
+                    style={{ fontSize: '16px' }}
+                    onClick={() => setShowSnippet(!showSnippet)}
+                  >
+                    {showSnippet ? t('app.hideSnippet') : t('app.showSnippet')}
+                  </button>
+                )}
+              </div>
+            </div>
+
             {/* OUTPUT EDITOR */}
-            <div className="col-md-6 mb-3">
+            <div className="editor-column output-editor">
               <div className="card h-100">
                 <div className="card-header d-flex justify-content-between align-items-center">
                   {t('app.generatedSchema')}
@@ -204,37 +220,17 @@ function App() {
                     value={outputSchema}
                     themeMode={theme}
                     readOnly
-                    height="400px"
+                    height="450px"
                   />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="row mt-4 text-center">
-            <div className="col-md-6 mx-auto">
-              <button 
-                className="btn btn-primary btn-lg w-100 mb-3" 
-                onClick={handleConvert}
-              >
-                {t('app.convertToSchema')}
-              </button>
-
-              <button
-                className="btn btn-success btn-lg w-100"
-                disabled={!outputSchema}
-                onClick={() => setShowSnippet(!showSnippet)}
-              >
-                {showSnippet ? t('app.hideSnippet') : t('app.showSnippet')}
-              </button>
-            </div>
-          </div>
-
-          {/* KARATE SNIPPET */}
+          {/* KARATE SNIPPET - REMOVED from bottom (now controlled by center button) */}
           {showSnippet && outputSchema && (
-            <div className="row mt-4">
-              <div className="col">
+            <Row className="mt-4">
+              <Col>
                 <div className="card">
                   <div className="card-header d-flex justify-content-between align-items-center">
                     {t('app.karateSnippet')}
@@ -256,13 +252,11 @@ function App() {
                     </pre>
                   </div>
                 </div>
-              </div>
-            </div>
+              </Col>
+            </Row>
           )}
         </Container>
       </main>
-
-      {/* ✅ TOAST REMOVED */}
 
       <Footer />
     </div>
