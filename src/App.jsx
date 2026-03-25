@@ -107,8 +107,8 @@ function App() {
       
       <main className={`flex-grow-1 ${theme}`}>
         <Container fluid className="py-4">
-          {/* Title */}
-          <h1 className="text-center mb-4">{t('app.title')}</h1>
+          {/* Title 
+          <h1 className="text-center mb-4">{t('app.title')}</h1>*/}
 
           {/* Demo Buttons */}
           <div className="row mb-3 text-center">
@@ -142,9 +142,9 @@ function App() {
                   value={requiredFields}
                   onChange={(e) => setRequiredFields(e.target.value)}
                 />
-                <div className="form-text">
+                {/*<div className="form-text">
                   {t('app.requiredFieldsHelp')}
-                </div>
+                </div>*/}
               </div>
             </div>
           </div>
