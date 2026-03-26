@@ -363,3 +363,41 @@ body.dark .btn-outline-secondary:hover {
     font-size: 15px !important;
   }
 }
+
+
+/* 🎯 PERFECT DEMO TOOLBAR */
+.demo-btn {
+  font-size: 0.8rem !important; /* Compact */
+  padding: 0.25rem 0.5rem !important;
+  min-height: 28px !important;
+  border-radius: 0.25rem !important;
+  white-space: nowrap;
+}
+
+.demo-btn:hover {
+  transform: none !important; /* No jumpy hover */
+}
+
+/* Theme-aware demo buttons */
+body.dark .demo-btn {
+  color: #e9ecef !important;
+  border-color: #6c757d !important;
+}
+
+body.dark .demo-btn:hover {
+  background-color: #495057 !important;
+}
+
+/* Mobile: Stack vertically if needed */
+@media (max-width: 576px) {
+  .btn-group-sm {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .demo-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

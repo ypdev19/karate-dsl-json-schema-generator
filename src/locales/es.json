@@ -14,6 +14,8 @@
     "title": "Convertidor JSON a Esquema Karate DSL",
     "loadBaseDemo": "Cargar Demo Básico",
     "loadAdvancedDemo": "Cargar Demo Avanzado",
+    "demoBaseShort": "Base Demo",
+    "demoAdvancedShort": "Advanced Demo",
     "requiredFields": "Campos Requeridos (separados por comas)",
     "requiredFieldsHelp": "Dejar vacío para tratar todos los campos como requeridos.",
     "inputPlaceholder": "Ejemplo: id, name, user.email, tags",

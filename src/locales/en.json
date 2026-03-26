@@ -14,6 +14,8 @@
     "title": "JSON to Karate DSL Schema Converter",
     "loadBaseDemo": "Load Base Demo",
     "loadAdvancedDemo": "Load Advanced Demo",
+    "demoBaseShort": "Base Demo",
+    "demoAdvancedShort": "Advanced Demo",
     "requiredFields": "Required Fields (Leave empty to treat all fields as required.)",
     "requiredFieldsHelp": "Leave empty to treat all fields as required.",
     "inputPlaceholder": "e.g. id, name, user.email, tags",

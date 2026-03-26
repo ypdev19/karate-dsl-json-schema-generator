@@ -63,13 +63,12 @@ function App() {
    */
   const handleCopy = useCallback(() => {
     if (!outputSchema) return;
-    
     copyToClipboard(
       outputSchema,
       setError,
+      null, // ← ADD THIS: no toast
       t('app.copySuccess')
     );
-    
     setCopyStatus('copied');
     setTimeout(() => setCopyStatus('copy'), 1200);
   }, [outputSchema, t]);
@@ -79,14 +78,13 @@ function App() {
    */
   const handleCopySnippet = useCallback(() => {
     if (!outputSchema) return;
-    
     const snippet = generateKarateSnippet(outputSchema);
     copyToClipboard(
       snippet,
       setError,
+      null, // ← ADD THIS: no toast  
       t('app.copySuccess')
     );
-    
     setSnippetStatus('copied');
     setTimeout(() => setSnippetStatus('copy'), 1200);
   }, [outputSchema, t]);
@@ -95,7 +93,24 @@ function App() {
    * Load Demo Data
    */
   const handleLoadDemo = useCallback((type) => {
-    loadDemo(type, setInputJson, setOutputSchema, setError, setIsInputError);
+    console.log('🚀 handleLoadDemo called with:', type); // DEBUG
+    
+    try {
+      const demoData = type === 'advanced' ? DEMO_DATA.advanced : DEMO_DATA.base;
+      console.log('📦 Demo data found:', demoData); // DEBUG
+      
+      const jsonString = JSON.stringify(demoData, null, 2);
+      console.log('✏️ Setting JSON:', jsonString); // DEBUG
+      
+      setInputJson(jsonString);
+      setOutputSchema('');
+      setError(null);
+      setIsInputError(false);
+      
+      console.log('✅ State should update now'); // DEBUG
+    } catch (err) {
+      console.error('💥 Demo error:', err);
+    }
   }, []);
 
   return (
@@ -105,7 +120,7 @@ function App() {
       <main className={`flex-grow-1 ${theme}`}>
         {/* ✅ NEW: Max-width centered container for ALL screens */}
         <Container className="main-content-container py-4">
-          {/* Demo Buttons */}
+          {/* Demo Buttons 
           <Row className="mb-3 text-center">
             <Col>
               <button 
@@ -121,7 +136,7 @@ function App() {
                 {t('app.loadAdvancedDemo')}
               </button>
             </Col>
-          </Row>
+          </Row>*/}
 
           {/* REQUIRED FIELDS INPUT */}
           <Row className="mb-4">
@@ -154,21 +169,42 @@ function App() {
             </div>
           )}
 
-          {/* ✅ RESPONSIVE EDITORS LAYOUT */}
+          {/* RESPONSIVE EDITORS LAYOUT */}
           <Row className="g-4 mb-4">
             {/* INPUT EDITOR */}
             <Col xs={12} lg={5}>
               <div className="editor-card h-100">
-                <div className="card-header">
-                  {t('app.inputJson')}
+                <div className="card-header d-flex justify-content-between align-items-center pb-2">
+                  <span className="fw-semibold">{t('app.inputJson')}</span>
+                  
+                  {/* DEMO BUTTONS TOOLBAR */}
+                  <div className="btn-group btn-group-sm gap-1" role="group">
+                    <button 
+                      className="btn btn-outline-secondary demo-btn"
+                      title={t('app.loadBaseDemo')}
+                      onClick={() => {
+                        console.log('BASE clicked!'); // DEBUG
+                        handleLoadDemo('base');
+                      }}
+                    >
+                      {t('app.demoBaseShort')}
+                    </button>
+                    <button 
+                      className="btn btn-outline-success demo-btn"
+                      title={t('app.loadAdvancedDemo')}
+                      onClick={() => handleLoadDemo('advanced')}
+                    >
+                      {t('app.demoAdvancedShort')}
+                    </button>
+                  </div>
                 </div>
-                <div className="card-body p-0">
+                
+                <div className="card-body p-0 flex-grow-1">
                   <JsonEditor
                     value={inputJson}
                     themeMode={theme}
                     onChange={setInputJson}
-                    height="100%"
-                    minHeight="450px"
+                    height="450px"
                     isError={isInputError}
                   />
                 </div>
@@ -201,8 +237,8 @@ function App() {
             {/* OUTPUT EDITOR */}
             <Col xs={12} lg={5}>
               <div className="editor-card h-100">
-                <div className="card-header d-flex justify-content-between align-items-center">
-                  {t('app.generatedSchema')}
+                <div className="card-header d-flex justify-content-between align-items-center pb-2">
+                  <span>{t('app.generatedSchema')}</span>
                   <button
                     className={`btn btn-sm ${
                       copyStatus === 'copied' 
@@ -215,7 +251,7 @@ function App() {
                     {copyStatus === 'copied' ? t('app.copied') : t('app.copy')}
                   </button>
                 </div>
-                <div className="card-body p-0">
+                <div className="card-body p-0 flex-grow-1">
                   <JsonEditor
                     value={outputSchema}
                     themeMode={theme}
