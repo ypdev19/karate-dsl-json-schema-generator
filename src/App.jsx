@@ -118,7 +118,7 @@ function App() {
       <NavBar />
       
       <main className={`flex-grow-1 ${theme}`}>
-        {/* ✅ NEW: Max-width centered container for ALL screens */}
+        {/* NEW: Max-width centered container for ALL screens */}
         <Container className="main-content-container py-4">
           {/* Demo Buttons 
           <Row className="mb-3 text-center">
