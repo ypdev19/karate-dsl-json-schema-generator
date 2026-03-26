@@ -92,24 +92,17 @@ function App() {
   /**
    * Load Demo Data
    */
-  const handleLoadDemo = useCallback((type) => {
-    console.log('🚀 handleLoadDemo called with:', type); // DEBUG
-    
+  const handleLoadDemo = useCallback((type) => {    
     try {
-      const demoData = type === 'advanced' ? DEMO_DATA.advanced : DEMO_DATA.base;
-      console.log('📦 Demo data found:', demoData); // DEBUG
-      
+      const demoData = type === 'advanced' ? DEMO_DATA.advanced : DEMO_DATA.base;      
       const jsonString = JSON.stringify(demoData, null, 2);
-      console.log('✏️ Setting JSON:', jsonString); // DEBUG
       
       setInputJson(jsonString);
       setOutputSchema('');
       setError(null);
       setIsInputError(false);
-      
-      console.log('✅ State should update now'); // DEBUG
     } catch (err) {
-      console.error('💥 Demo error:', err);
+      console.error('Demo error:', err);
     }
   }, []);
 
@@ -120,23 +113,6 @@ function App() {
       <main className={`flex-grow-1 ${theme}`}>
         {/* NEW: Max-width centered container for ALL screens */}
         <Container className="main-content-container py-4">
-          {/* Demo Buttons 
-          <Row className="mb-3 text-center">
-            <Col>
-              <button 
-                className="btn btn-outline-primary me-2" 
-                onClick={() => handleLoadDemo('base')}
-              >
-                {t('app.loadBaseDemo')}
-              </button>
-              <button 
-                className="btn btn-success" 
-                onClick={() => handleLoadDemo('advance')}
-              >
-                {t('app.loadAdvancedDemo')}
-              </button>
-            </Col>
-          </Row>*/}
 
           {/* REQUIRED FIELDS INPUT */}
           <Row className="mb-4">
