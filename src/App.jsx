@@ -103,7 +103,8 @@ function App() {
       <NavBar />
       
       <main className={`flex-grow-1 ${theme}`}>
-        <Container fluid className="py-4">
+        {/* ✅ NEW: Max-width centered container for ALL screens */}
+        <Container className="main-content-container py-4">
           {/* Demo Buttons */}
           <Row className="mb-3 text-center">
             <Col>
@@ -124,7 +125,7 @@ function App() {
 
           {/* REQUIRED FIELDS INPUT */}
           <Row className="mb-4">
-            <Col md={12}>
+            <Col>
               <div className="mb-3">
                 <label className="form-label fw-semibold">
                   {t('app.requiredFields')}
@@ -153,11 +154,11 @@ function App() {
             </div>
           )}
 
-          {/* Editors + Centered Action Buttons Layout */}
-          <div className="editors-container">
+          {/* ✅ RESPONSIVE EDITORS LAYOUT */}
+          <Row className="g-4 mb-4">
             {/* INPUT EDITOR */}
-            <div className="editor-column input-editor">
-              <div className="card h-100">
+            <Col xs={12} lg={5}>
+              <div className="editor-card h-100">
                 <div className="card-header">
                   {t('app.inputJson')}
                 </div>
@@ -166,20 +167,20 @@ function App() {
                     value={inputJson}
                     themeMode={theme}
                     onChange={setInputJson}
-                    height="450px"
+                    height="100%"
+                    minHeight="450px"
                     isError={isInputError}
                   />
                 </div>
               </div>
-            </div>
+            </Col>
 
-            {/* CENTRAL ACTION BUTTONS - Dual layout */}
-            <div className="convert-button-container">
-              <div className="d-flex flex-column gap-2 justify-content-center align-items-stretch">
-                {/* Convert Button - Always visible */}
+            {/* ACTION BUTTONS - Always centered */}
+            <Col xs={12} lg={2} className="d-flex align-items-center justify-content-center">
+              <div className="action-buttons-vertical">
+                {/* Convert Button - Always visible, prominent */}
                 <button 
-                  className="btn btn-primary btn-lg"
-                  style={{ fontSize: '16px' }}
+                  className="btn btn-primary btn-lg w-100 mb-2 convert-main-btn"
                   onClick={handleConvert}
                 >
                   {t('app.convertToSchema')}
@@ -188,19 +189,18 @@ function App() {
                 {/* Snippet Toggle - Only when schema exists */}
                 {outputSchema && (
                   <button
-                    className="btn btn-success btn-lg"
-                    style={{ fontSize: '16px' }}
+                    className="btn btn-success btn-lg w-100"
                     onClick={() => setShowSnippet(!showSnippet)}
                   >
                     {showSnippet ? t('app.hideSnippet') : t('app.showSnippet')}
                   </button>
                 )}
               </div>
-            </div>
+            </Col>
 
             {/* OUTPUT EDITOR */}
-            <div className="editor-column output-editor">
-              <div className="card h-100">
+            <Col xs={12} lg={5}>
+              <div className="editor-card h-100">
                 <div className="card-header d-flex justify-content-between align-items-center">
                   {t('app.generatedSchema')}
                   <button
@@ -220,18 +220,19 @@ function App() {
                     value={outputSchema}
                     themeMode={theme}
                     readOnly
-                    height="450px"
+                    height="100%"
+                    minHeight="450px"
                   />
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
 
-          {/* KARATE SNIPPET - REMOVED from bottom (now controlled by center button) */}
+          {/* KARATE SNIPPET */}
           {showSnippet && outputSchema && (
-            <Row className="mt-4">
-              <Col>
-                <div className="card">
+            <Row>
+              <Col xs={12}>
+                <div className="snippet-card">
                   <div className="card-header d-flex justify-content-between align-items-center">
                     {t('app.karateSnippet')}
                     <button
@@ -247,7 +248,7 @@ function App() {
                     </button>
                   </div>
                   <div className="card-body p-0">
-                    <pre className="p-3 m-0 bg-light small overflow-auto">
+                    <pre className="p-3 m-0 snippet-pre bg-light small">
                       {generateKarateSnippet(outputSchema)}
                     </pre>
                   </div>
