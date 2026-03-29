@@ -1,10 +1,13 @@
 /**
- * App.jsx: Full layout orchestrator with i18n support
- * NEW: Dual centered buttons (Convert + Snippet toggle) between editors
- * Snippet toggle only shows when schema exists (conditional UX)
- * Flex-column min-vh-100 layout, theme-aware, responsive, mobile-first
+ * App.jsx: Full layout with Upload + Clear All + Empty start
+ * FEATURES: 
+ * - Empty JSON on load (cursor line 1)
+ * - Upload 📁 (JSON only, required untouched)
+ * - Clear All 🗑️ (disabled when empty, clears JSON+required+output)
+ * - Generate NEVER clears required field
+ * - Perfect toolbar: [📁][🗑️][Base][Adv]
  */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useGlobalContext } from './contexts/GlobalContext';
 import NavBar from './components/NavBar';
@@ -17,7 +20,6 @@ import {
 } from './utils/schemaConverter';
 
 import { 
-  loadDemo, 
   copyToClipboard, 
   DEMO_DATA 
 } from './utils/appUtils';
@@ -27,67 +29,62 @@ import './index.css';
 function App() {
   const { theme, t } = useGlobalContext();
 
-  // State
-  const [inputJson, setInputJson] = useState(JSON.stringify(DEMO_DATA.base, null, 2));
+  // State - EMPTY JSON on load
+  const [inputJson, setInputJson] = useState(''); // ← EMPTY START
   const [requiredFields, setRequiredFields] = useState('');
   const [outputSchema, setOutputSchema] = useState('');
   const [error, setError] = useState(null);
   const [isInputError, setIsInputError] = useState(false);
   const [showSnippet, setShowSnippet] = useState(false);
+  const [isClearable, setIsClearable] = useState(false); // ← DISABLED initially
   
-  // Copy button states
+  // Refs
+  const fileInputRef = useRef(null);
+  
+  // Copy states
   const [copyStatus, setCopyStatus] = useState('copy');
   const [snippetStatus, setSnippetStatus] = useState('copy');
 
-  /**
-   * Convert JSON → Karate Schema
-   */
-  const handleConvert = useCallback(() => {
-    setError(null);
-    setOutputSchema('');
-    setIsInputError(false);
+  // Clear All enable/disable logic
+  useEffect(() => {
+    setIsClearable(inputJson.trim() !== '{}' && inputJson.trim() !== '');
+  }, [inputJson]);
 
-    try {
-      const parsed = JSON.parse(inputJson);
-      const result = generateKarateSchema(parsed, requiredFields);
-      setOutputSchema(result);
-    } catch (err) {
-      setError(t('app.invalidJson'));
-      setIsInputError(true);
-      console.error('JSON Parse Error:', err);
+  /**
+   * Upload JSON File → JSON only (required untouched)
+   */
+  const handleFileUpload = useCallback((e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          setInputJson(event.target.result);
+          setOutputSchema('');
+          setError(null);
+          setIsInputError(false);
+          setShowSnippet(false);
+        } catch (err) {
+          setError(t('app.invalidJson'));
+        }
+      };
+      reader.readAsText(file);
     }
-  }, [inputJson, requiredFields, t]);
+    e.target.value = '';
+  }, [t]);
 
   /**
-   * Copy Schema to Clipboard + Button Feedback
+   * Clear All → JSON + Required + Output
    */
-  const handleCopy = useCallback(() => {
-    if (!outputSchema) return;
-    copyToClipboard(
-      outputSchema,
-      setError,
-      null, // ← ADD THIS: no toast
-      t('app.copySuccess')
-    );
-    setCopyStatus('copied');
-    setTimeout(() => setCopyStatus('copy'), 1200);
-  }, [outputSchema, t]);
-
-  /**
-   * Copy Karate Snippet to Clipboard + Button Feedback
-   */
-  const handleCopySnippet = useCallback(() => {
-    if (!outputSchema) return;
-    const snippet = generateKarateSnippet(outputSchema);
-    copyToClipboard(
-      snippet,
-      setError,
-      null, // ← ADD THIS: no toast  
-      t('app.copySuccess')
-    );
-    setSnippetStatus('copied');
-    setTimeout(() => setSnippetStatus('copy'), 1200);
-  }, [outputSchema, t]);
+  const handleClearAll = useCallback(() => {
+    if (!isClearable) return;
+    setInputJson('');
+    setRequiredFields('');
+    setOutputSchema('');
+    setError(null);
+    setIsInputError(false);
+    setShowSnippet(false);
+  }, [isClearable]);
 
   /**
    * Load Demo Data
@@ -106,15 +103,64 @@ function App() {
     }
   }, []);
 
+  /**
+   * Convert JSON → Karate Schema (NEVER clears required)
+   */
+  const handleConvert = useCallback(() => {
+    setError(null);
+    setOutputSchema('');
+    setIsInputError(false);
+
+    try {
+      const parsed = JSON.parse(inputJson);
+      const result = generateKarateSchema(parsed, requiredFields);
+      setOutputSchema(result);
+    } catch (err) {
+      setError(t('app.invalidJson'));
+      setIsInputError(true);
+      console.error('JSON Parse Error:', err);
+    }
+  }, [inputJson, requiredFields, t]);
+
+  /**
+   * Copy Schema to Clipboard
+   */
+  const handleCopy = useCallback(() => {
+    if (!outputSchema) return;
+    copyToClipboard(
+      outputSchema,
+      setError,
+      null,
+      t('app.copySuccess')
+    );
+    setCopyStatus('copied');
+    setTimeout(() => setCopyStatus('copy'), 1200);
+  }, [outputSchema, t]);
+
+  /**
+   * Copy Karate Snippet
+   */
+  const handleCopySnippet = useCallback(() => {
+    if (!outputSchema) return;
+    const snippet = generateKarateSnippet(outputSchema);
+    copyToClipboard(
+      snippet,
+      setError,
+      null,
+      t('app.copySuccess')
+    );
+    setSnippetStatus('copied');
+    setTimeout(() => setSnippetStatus('copy'), 1200);
+  }, [outputSchema, t]);
+
   return (
     <div className={`d-flex flex-column min-vh-100 ${theme}`}>
       <NavBar />
       
       <main className={`flex-grow-1 ${theme}`}>
-        {/* NEW: Max-width centered container for ALL screens */}
         <Container className="main-content-container py-4">
 
-          {/* REQUIRED FIELDS INPUT */}
+          {/* REQUIRED FIELDS */}
           <Row className="mb-4">
             <Col>
               <div className="mb-3">
@@ -145,7 +191,7 @@ function App() {
             </div>
           )}
 
-          {/* RESPONSIVE EDITORS LAYOUT */}
+          {/* EDITORS LAYOUT */}
           <Row className="g-4 mb-4">
             {/* INPUT EDITOR */}
             <Col xs={12} lg={5}>
@@ -153,20 +199,45 @@ function App() {
                 <div className="card-header d-flex justify-content-between align-items-center pb-2">
                   <span className="fw-semibold">{t('app.inputJson')}</span>
                   
-                  {/* DEMO BUTTONS TOOLBAR */}
-                  <div className="btn-group btn-group-sm gap-1" role="group">
+                  {/* PERFECT TOOLBAR: Upload + Clear + Demos */}
+                  <div className="btn-group btn-group-sm gap-2" role="group">
+                    {/* UPLOAD */}
+                    <input 
+                      type="file" 
+                      accept=".json" 
+                      className="d-none" 
+                      id="json-upload"
+                      onChange={handleFileUpload}
+                      ref={fileInputRef}
+                    />
+                    <label 
+                      htmlFor="json-upload" 
+                      className="btn btn-outline-primary demo-btn icon-only"
+                      title={t('app.uploadJson')}
+                    >
+                      📁
+                    </label>
+                    
+                    {/* CLEAR ALL */}
                     <button 
-                      className="btn btn-outline-secondary demo-btn"
+                      className={`btn demo-btn icon-only ${isClearable ? 'btn-outline-danger' : 'btn-outline-secondary'}`}
+                      onClick={handleClearAll}
+                      disabled={!isClearable}
+                      title={t('app.clearAll')}
+                    >
+                      🗑️
+                    </button>
+                    
+                    {/* DEMOS */}
+                    <button 
+                      className="btn btn-outline-secondary demo-btn text-btn"
                       title={t('app.loadBaseDemo')}
-                      onClick={() => {
-                        console.log('BASE clicked!'); // DEBUG
-                        handleLoadDemo('base');
-                      }}
+                      onClick={() => handleLoadDemo('base')}
                     >
                       {t('app.demoBaseShort')}
                     </button>
                     <button 
-                      className="btn btn-outline-success demo-btn"
+                      className="btn btn-outline-success demo-btn text-btn"
                       title={t('app.loadAdvancedDemo')}
                       onClick={() => handleLoadDemo('advanced')}
                     >
@@ -187,10 +258,9 @@ function App() {
               </div>
             </Col>
 
-            {/* ACTION BUTTONS - Always centered */}
+            {/* ACTION BUTTONS */}
             <Col xs={12} lg={2} className="d-flex align-items-center justify-content-center">
               <div className="action-buttons-vertical">
-                {/* Convert Button - Always visible, prominent */}
                 <button 
                   className="btn btn-primary btn-lg w-100 mb-2 convert-main-btn"
                   onClick={handleConvert}
@@ -198,7 +268,6 @@ function App() {
                   {t('app.convertToSchema')}
                 </button>
                 
-                {/* Snippet Toggle - Only when schema exists */}
                 {outputSchema && (
                   <button
                     className="btn btn-success btn-lg w-100"

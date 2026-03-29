@@ -29,6 +29,8 @@
     "copied": "Copiado!",
     "copySnippet": "Copiar Fragmento",
     "invalidJson": "Formato JSON inválido. Verifique su entrada.",
-    "copySuccess": "¡Copiado al portapapeles!"
+    "copySuccess": "¡Copiado al portapapeles!",
+    "uploadJson": "Subir JSON",
+    "clearAll": "Limpiar Todo"
   }
 }

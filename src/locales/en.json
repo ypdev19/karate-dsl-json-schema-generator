@@ -29,6 +29,8 @@
     "copied": "Copied!",
     "copySnippet": "Copy Snippet",
     "invalidJson": "Invalid JSON format. Please check your input.",
-    "copySuccess": "Copied to clipboard!"
+    "copySuccess": "Copied to clipboard!",
+    "uploadJson": "Upload JSON",
+    "clearAll": "Clear All"
   }
 }
