@@ -11,21 +11,28 @@ Client-side tool converting JSON payloads to Karate DSL validation schemas for Q
 ## Key Features
 
 - Core: JSON → Karate Schema (recursive objects/arrays), required fields ("id, name, user.email"), type inference (#string/#number/#boolean/#[])
-- UI/UX: Dual Ace Editors (input/output), demo data, clipboard (schema/snippet), toast animations, mobile-first responsive
+- UI/UX: Dual Ace Editors (input/output), demo data, clipboard (schema/snippet), toast animations, mobile-first responsive. Convert to Schema (always visible, primary, 16px font). Show/Hide Snippet (conditional - only after conversion, success)
 - **Theming/i18n**: Dark/Light toggle (**persistent across reloads** ✓), EN/ES support (**localStorage persistent** ✓)
 - Dev: Real-time JSON validation, zero-config, no backend/auth/routing
 - **i18n Complete**: EN/ES full support, interpolation (`{{year}}`), dot-notation keys (`app.title`), **localStorage persistent ACROSS RELOADS ✓**, real-time switching.
 - CSS: Global form-control theming
-## Key Features (UPDATED)
+
+## Fixes Applied
+- **1920x1080+ Centering**: `.main-content-container` (1400px max-width, perfect padding)
+- **Bootstrap Grid Layout**: `Col xs={12} lg={5/2/5}` - Editors + centered buttons
+- **Full-height Editors**: `min-height: 450px+`, scales to screen height
+- **Mobile-first Breakpoints**: Every device covered (sm/md/lg/xl/xxl)
+- **Action Buttons**: Perfect vertical stack between editors
+- **No horizontal scroll**: Zero overflow issues
+- **Theme-aware Everything**: Dark/light perfect across all sizes
 
 ## Application Flow
 
-- Dark theme load (persistent)
-- Navbar: theme/lang selectors
-- Load demo/paste JSON → set required fields
-- Convert → live schema output
-- Copy schema/snippet → toast
-- Sticky footer always visible
+- Dark theme load (persistent) → **Centered 1400px container**
+- Navbar: Full-width, responsive dropdowns
+- Editors: 5-2-5 grid (lg+), stacked mobile
+- Convert button: Always prominent, 16px font
+- Sticky footer: Full-width, responsive links
 
 ## Internal Conversion Logic
 
@@ -65,12 +72,10 @@ src/
 
 Metrics: <100ms conversion, <5s paste→copy, 100% client-side, offline-ready
 
-As next task, the toast design and display placement is awful, it's too big and it displays in the right side of the app, I want to get rid of it and instead, make the button Copy change to Copied! for like a second with a color change maybe and then go back to say Copy.
-If i clicked, that will visually happen and at the same time the actual copy event will trigger.
+As next tasks:
 
-If that is too complicated, maybe a small alert like of a tooltip size to be displayed on top of the button like floating with message "copy to clipboard"
-
-What's the best UX UI choice?
+1. The required textfield placeholder needs the font to be a bit more light gray more of a placeholder transparent style text color
+2. The convert schema button is wider that the snippet button, make it be as thin as the snippet button, both buttons should make the same width, height and font size
 
 Important to keep under consideration for what we're going to do:
 
@@ -79,12 +84,53 @@ Important to keep under consideration for what we're going to do:
 - Follow coding best practices.
 - If you need an existing code, ask for it.
 - By the time we complete this part, update this same prompt (project structure, project summary)
+- DO NOT break any existing app core Logic
 
-Here's the code of the GlobalContext.jsx and App.jsx tell me what other code you need to check:
+Here's the code of App.jsx and index.css, tell me what other code you need to check:
+
+I want to add an about page to describe what the tool is about as part of the marketing strategy for people to know more about the tool/app, what is better for UX, a modal or an individual page? The content won't be too long btw
 
 
+# JSON to Karate DSL Schema Converter Project Overview
 
+Client-side tool converting JSON payloads to Karate DSL validation schemas for QA/API testers. Fully themed, i18n-ready, offline-capable.
 
+## Tech Stack
+- Build: Vite | Framework: React 18 (Hooks) | UI: React Bootstrap 5
+- Editor: React-Ace + Ace-Builds | Icons: react-icons | Testing: AVA
+- Contexts: GlobalContext (Theme/Lang) | Storage: localStorage | Lang: ES Modules
 
+## Key Features
+- **Core**: JSON → Karate Schema (recursive objects/arrays), required fields ("id, name, user.email"), type inference (#string/#number/#boolean/#[])
+- **NEW: Upload + Clear All**: 📁 Upload JSON (editor only), 🗑️ Clear All (JSON+required+output, disabled when empty)
+- **UI/UX**: Dual Ace Editors (empty on load), demo data, clipboard, toast animations, mobile-first responsive
+- Convert button always visible (16px font). Show/Hide Snippet (conditional after conversion)
+- **Theming/i18n**: Dark/Light toggle (persistent), EN/ES (localStorage persistent), real-time switching
+- **Toolbar**: `[📁 Upload][🗑️ Clear All][Base Demo][Adv Demo]` - Perfect spacing/sizing
+- Dev: Real-time JSON validation, zero-config, no backend/auth/routing
+- **Generate behavior**: NEVER auto-clears required field (stays until Clear All)
 
-it should be visible in the center and be small but visible enough for the user to see it
+## Fixes Applied
+- **1920x1080+ Centering**: `.main-content-container` (1400px max-width)
+- **Bootstrap Grid**: `Col xs={12} lg={5/2/5}` - Editors + centered buttons
+- **Full-height Editors**: `min-height: 450px+`, scales to screen height
+- **Mobile-first**: Every breakpoint covered
+- **Uniform Buttons**: Convert + Snippet identical width/height/font
+- **Placeholder**: Light gray transparency across themes
+- **Toolbar**: Icon buttons compact, text buttons spacious, no overlap
+
+## Application Flow
+- **Empty start** → Dark theme (persistent) → Centered 1400px container
+- Navbar full-width responsive
+- Editors 5-2-5 grid (lg+), stacked mobile
+- **Toolbar**: Upload/Clear/Demos → Clear All disabled initially
+- Convert always prominent
+- Sticky footer responsive
+
+## Internal Conversion Logic
+JSON: `{ "id": 101, "user": {"email": "..."}, "tags": ["admin"] }`
+↓ parse + traverse + type inference + required resolution  
+Karate: `{ "id": #number, "user": {"email": #string}, "tags": #[] }`
+↓ Snippet: `Then match response == """{...}"""`
+
+## Project Structure
