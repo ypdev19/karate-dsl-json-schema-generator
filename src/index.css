@@ -85,14 +85,13 @@ body.dark {
 }
 
 .dark .form-control::placeholder {
-  color: #ffffff !important;
-  opacity: 1 !important;
+  color: #868e96 !important; /* Lighter gray vs #ffffff */
+  opacity: 0.6 !important;  /* More transparent placeholder feel */
 }
 
-.light .form-control {
-  color: #212529 !important;
-  background-color: #ffffff !important;
-  border-color: #ced4da !important;
+.light .form-control::placeholder {
+  color: #adb5bd !important; /* Softer gray for light mode too */
+  opacity: 0.65 !important;
 }
 
 .light .form-control::placeholder {
@@ -263,10 +262,11 @@ body.light .ace_editor .ace_gutter-layer .ace_active-line {
 }
 
 .convert-main-btn {
-  font-size: 1.1rem !important;
+  font-size: 16px !important;
   font-weight: 600 !important;
-  padding: 0.75rem 1rem !important;
-  min-height: 56px;
+  padding: 0.625rem 1rem !important;
+  min-height: 48px !important;
+  line-height: 1.4 !important;
 }
 
 /* Snippet card */
@@ -348,22 +348,22 @@ body.dark .btn-outline-secondary:hover {
 }
 
 .action-buttons-vertical .btn {
-  font-size: 16px !important; /* Snippet toggle also 16px */
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  padding: 0.625rem 1rem !important;  /* Identical padding */
+  min-height: 48px !important;        /* Identical height */
+  line-height: 1.4 !important;
+  border-radius: 0.375rem !important; /* Perfect rounded corners */
 }
 
-/* Mobile: Slightly smaller for touch */
+/* Mobile: Both buttons scale identically */
 @media (max-width: 767.98px) {
-  .convert-main-btn {
-    font-size: 15px !important; /* Perfect mobile touch */
+  .action-buttons-vertical .btn {
+    font-size: 15px !important;
     padding: 0.5rem 0.875rem !important;
     min-height: 44px !important;
   }
-  
-  .action-buttons-vertical .btn {
-    font-size: 15px !important;
-  }
 }
-
 
 /* 🎯 PERFECT DEMO TOOLBAR */
 .demo-btn {
