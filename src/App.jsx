@@ -21,6 +21,7 @@ import {
 
 import { 
   copyToClipboard, 
+  downloadSchema,
   DEMO_DATA 
 } from './utils/appUtils';
 
@@ -44,6 +45,7 @@ function App() {
   // Copy states
   const [copyStatus, setCopyStatus] = useState('copy');
   const [snippetStatus, setSnippetStatus] = useState('copy');
+  const [downloadStatus, setDownloadStatus] = useState('download'); 
 
   // Clear All enable/disable logic
   useEffect(() => {
@@ -152,6 +154,17 @@ function App() {
     setSnippetStatus('copied');
     setTimeout(() => setSnippetStatus('copy'), 1200);
   }, [outputSchema, t]);
+
+  /**
+   * 🆕 Download Schema as JSON file
+   */
+  const handleDownload = useCallback(() => {
+    if (!outputSchema) return;
+    downloadSchema(outputSchema);
+    setDownloadStatus('downloaded');
+    setTimeout(() => setDownloadStatus('download'), 1200);
+  }, [outputSchema]);
+
 
   return (
     <div className={`d-flex flex-column min-vh-100 ${theme}`}>
@@ -284,17 +297,37 @@ function App() {
               <div className="editor-card h-100">
                 <div className="card-header d-flex justify-content-between align-items-center pb-2">
                   <span>{t('app.generatedSchema')}</span>
-                  <button
-                    className={`btn btn-sm ${
-                      copyStatus === 'copied' 
-                        ? 'btn-success' 
-                        : 'btn-outline-secondary'
-                    }`}
-                    onClick={handleCopy}
-                    disabled={!outputSchema}
-                  >
-                    {copyStatus === 'copied' ? t('app.copied') : t('app.copy')}
-                  </button>
+                  
+                  {/* 🆕 PERFECT TOOLBAR: Copy + Download (matches input toolbar style) */}
+                  <div className="btn-group btn-group-sm gap-2" role="group">
+                    {/* COPY BUTTON (existing) */}
+                    <button
+                      className={`btn btn-sm demo-btn icon-only ${
+                        copyStatus === 'copied' 
+                          ? 'btn-success' 
+                          : 'btn-outline-secondary'
+                      }`}
+                      onClick={handleCopy}
+                      disabled={!outputSchema}
+                      title={t('app.copy')}
+                    >
+                      {copyStatus === 'copied' ? '✓' : '📋'}
+                    </button>
+                    
+                    {/* 🆕 DOWNLOAD BUTTON - Perfect match */}
+                    <button
+                      className={`btn btn-sm demo-btn icon-only ${
+                        downloadStatus === 'downloaded' 
+                          ? 'btn-success' 
+                          : 'btn-outline-success'
+                      }`}
+                      onClick={handleDownload}
+                      disabled={!outputSchema}
+                      title={t('app.downloadSchema')}
+                    >
+                      {downloadStatus === 'downloaded' ? '✓' : '📥'}
+                    </button>
+                  </div>
                 </div>
                 <div className="card-body p-0 flex-grow-1">
                   <JsonEditor

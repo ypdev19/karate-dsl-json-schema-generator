@@ -75,3 +75,21 @@ export const copyToClipboard = async (text, setError, triggerToastFn, successMsg
     }
   }
 };
+
+/**
+ * 🆕 Download schema as JSON file
+ * Filename: "karate-schema.json"
+ */
+export const downloadSchema = (schemaJson) => {
+  if (!schemaJson) return;
+  
+  const blob = new Blob([schemaJson], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'karate-schema.json'; // ✅ Perfect filename
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};

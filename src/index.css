@@ -448,3 +448,23 @@ body.dark .demo-btn:hover {
   cursor: not-allowed !important;
 }
 
+/* 🆕 DOWNLOAD BUTTON - Perfect theme matching */
+body.dark .demo-btn.btn-outline-success {
+  color: #20c997 !important;
+  border-color: #20c997 !important;
+}
+
+body.dark .demo-btn.btn-outline-success:hover {
+  background-color: #20c997 !important;
+  color: white !important;
+}
+
+body.light .demo-btn.btn-outline-success {
+  color: #198754 !important;
+  border-color: #198754 !important;
+}
+
+body.light .demo-btn.btn-outline-success:hover {
+  background-color: #198754 !important;
+  color: white !important;
+}

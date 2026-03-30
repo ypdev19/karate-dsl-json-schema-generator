@@ -31,6 +31,7 @@
     "invalidJson": "Invalid JSON format. Please check your input.",
     "copySuccess": "Copied to clipboard!",
     "uploadJson": "Upload JSON",
-    "clearAll": "Clear All"
+    "clearAll": "Clear All",
+    "downloadSchema": "Download Schema"
   }
 }
