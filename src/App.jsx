@@ -6,6 +6,7 @@
  * - Clear All 🗑️ (disabled when empty, clears JSON+required+output)
  * - Generate NEVER clears required field
  * - Perfect toolbar: [📁][🗑️][Base][Adv]
+ * - 🆕 SNIPPET: Theme-aware + Auto-scroll on show (responsive)
  */
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -41,6 +42,7 @@ function App() {
   
   // Refs
   const fileInputRef = useRef(null);
+  const snippetRef = useRef(null); // 🆕 SNIPPET AUTO-SCROLL
   
   // Copy states
   const [copyStatus, setCopyStatus] = useState('copy');
@@ -51,6 +53,30 @@ function App() {
   useEffect(() => {
     setIsClearable(inputJson.trim() !== '{}' && inputJson.trim() !== '');
   }, [inputJson]);
+
+  // 🆕 ULTRA-SMART RESPONSIVE SCROLL
+  useEffect(() => {
+    if (showSnippet && snippetRef.current) {
+      requestAnimationFrame(() => {
+        const element = snippetRef.current;
+        if (!element) return;
+        
+        const rect = element.getBoundingClientRect();
+        
+        // 🆕 SMART CHECK: Only scroll if NOT fully visible
+        if (rect.top < -20 || rect.bottom > (window.innerHeight + 20)) {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const navbarHeight = 80;
+          const targetY = scrollTop + rect.top - navbarHeight;
+          
+          window.scrollTo({
+            top: targetY,
+            behavior: 'smooth'
+          });
+        }
+      });
+    }
+  }, [showSnippet]);
 
   /**
    * Upload JSON File → JSON only (required untouched)
@@ -283,7 +309,7 @@ function App() {
                 
                 {outputSchema && (
                   <button
-                    className="btn btn-success btn-lg w-100"
+                    className={`btn btn-success btn-lg w-100 ${showSnippet ? 'snippet-visible' : ''}`}
                     onClick={() => setShowSnippet(!showSnippet)}
                   >
                     {showSnippet ? t('app.hideSnippet') : t('app.showSnippet')}
@@ -342,27 +368,28 @@ function App() {
             </Col>
           </Row>
 
-          {/* KARATE SNIPPET */}
+          {/* 🆕 KARATE SNIPPET - THEME-AWARE + AUTO-SCROLL */}
           {showSnippet && outputSchema && (
-            <Row>
+            <Row className="mt-4">
               <Col xs={12}>
-                <div className="snippet-card">
+                <div ref={snippetRef} className="snippet-card">
                   <div className="card-header d-flex justify-content-between align-items-center">
                     {t('app.karateSnippet')}
                     <button
-                      className={`btn btn-sm ${
+                      className={`btn btn-sm demo-btn ${
                         snippetStatus === 'copied' 
                           ? 'btn-success' 
                           : 'btn-outline-secondary'
                       }`}
                       onClick={handleCopySnippet}
                       disabled={!outputSchema}
+                      title={t('app.copySnippet')}
                     >
-                      {snippetStatus === 'copied' ? t('app.copied') : t('app.copySnippet')}
+                      {snippetStatus === 'copied' ? '✓' : '📋'}
                     </button>
                   </div>
                   <div className="card-body p-0">
-                    <pre className="p-3 m-0 snippet-pre bg-light small">
+                    <pre className="p-3 m-0 snippet-pre theme-aware-pre small">
                       {generateKarateSnippet(outputSchema)}
                     </pre>
                   </div>
