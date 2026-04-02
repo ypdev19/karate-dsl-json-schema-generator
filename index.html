@@ -1,25 +1,53 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Karate JSON Schema Converter</title>
-    <!-- 🎯 ONLY BACKGROUND FLASH PREVENTION -->
+    <!-- 🎯 BULLETPROOF: INLINE CSS OVERRIDES EVERYTHING -->
     <style>
-      * { box-sizing: border-box; margin: 0; padding: 0; }
+      * { 
+        box-sizing: border-box; 
+        margin: 0; 
+        padding: 0;
+      }
       html, body, #root {
         min-height: 100vh;
         overflow-x: hidden;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       }
-      /* 🎯 ONLY DARK UNTIL CSS LOADS - NO !important CONFLICTS */
+      
+      /* 🎯 HIGHEST SPECIFICITY - NO FLASH POSSIBLE */
+      body.light {
+        background-color: #f8f9fa !important;
+        color: #212529 !important;
+      }
+      
       body.dark {
-        background-color: #121212;
-        color: #e0e0e0;
+        background-color: #121212 !important;
+        color: #e0e0e0 !important;
       }
     </style>
   </head>
   <body class="dark">
+    <!-- 🎯 BULLETPROOF JS - Runs BEFORE CSS paint -->
+    <script>
+      (() => {
+        try {
+          const savedTheme = localStorage.getItem('theme') || 'dark';
+          document.documentElement.className = savedTheme;
+          document.body.className = savedTheme;
+          
+          // 🎯 FORCE STYLE REPAINT
+          document.body.style.backgroundColor = savedTheme === 'light' ? '#f8f9fa' : '#121212';
+          document.body.style.color = savedTheme === 'light' ? '#212529' : '#e0e0e0';
+        } catch(e) {
+          // Fallback to dark
+          document.body.className = 'dark';
+        }
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
