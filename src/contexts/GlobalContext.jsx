@@ -8,44 +8,41 @@ export const GlobalProvider = ({ children }) => {
   const [theme, setTheme] = useState('dark');
   const [language, setLanguage] = useState('en');
   const [translations, setTranslations] = useState(en);
-  const [isInitialized, setIsInitialized] = useState(false); // 🔧 NEW: Prevent flash
 
-  // ✅ FIXED: Load from localStorage on EVERY mount/reload
+  // 🎯 STEP 1: INSTANT localStorage sync + DOM update
   useEffect(() => {
     const storedTheme = localStorage.getItem('theme') || 'dark';
     const storedLanguage = localStorage.getItem('language') || 'en';
     
+    // 🎯 IMMEDIATE DOM UPDATE - NO DELAY
+    document.documentElement.className = storedTheme;
+    document.body.className = storedTheme;
+    
     setTheme(storedTheme);
     setLanguage(storedLanguage);
     setTranslations(storedLanguage === 'es' ? es : en);
-    setIsInitialized(true); // 🔧 Mark as loaded
-  }, []); // Keep empty - runs once on mount
+  }, []); // Runs ONCE on mount
 
-  // ✅ FIXED: Apply theme to body AFTER state is set
-  useEffect(() => {
-    if (!isInitialized) return; // 🔧 Prevent flash
-    
-    localStorage.setItem('theme', theme);
-    document.body.className = theme;
-  }, [theme, isInitialized]);
-
-  // ✅ FIXED: Language persistence
-  useEffect(() => {
-    if (!isInitialized) return; // 🔧 Prevent flash
-    
-    localStorage.setItem('language', language);
-    setTranslations(language === 'es' ? es : en);
-  }, [language, isInitialized]);
-
+  // 🎯 STEP 2: Theme change handler - INSTANT DOM sync
   const toggleTheme = useCallback(() => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light');
-  }, []);
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    
+    // 🎯 INSTANT DOM UPDATE
+    document.documentElement.className = newTheme;
+    document.body.className = newTheme;
+    
+    setTheme(newTheme);
+  }, [theme]);
 
+  // 🎯 STEP 3: Language change handler
   const changeLanguage = useCallback((lng) => {
+    localStorage.setItem('language', lng);
     setLanguage(lng);
+    setTranslations(lng === 'es' ? es : en);
   }, []);
 
-  // ✅ Translation with interpolation (unchanged)
+  // ✅ Translation with interpolation (UNCHANGED)
   const t = useCallback((key, params = {}) => {
     try {
       let translation = key.split('.').reduce((obj, k) => obj?.[k], translations) || key;
@@ -61,17 +58,7 @@ export const GlobalProvider = ({ children }) => {
     }
   }, [translations]);
 
-  // 🔧 Prevent render until initialized
-  if (!isInitialized) {
-    return (
-      <div className="d-flex justify-content-center align-items-center min-vh-100">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    );
-  }
-
+  // 🎯 NO LOADING SCREEN NEEDED - INSTANT RENDER
   return (
     <GlobalContext.Provider value={{ theme, toggleTheme, language, changeLanguage, t }}>
       {children}
