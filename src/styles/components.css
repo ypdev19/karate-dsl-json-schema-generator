@@ -1,0 +1,24 @@
+/* Forms & Cards */
+.dark .form-control {
+    color: #e9ecef !important;
+    background-color: #343a40 !important;
+    border-color: #495057 !important;
+  }
+  .dark .form-control::placeholder { color: #868e96 !important; opacity: 0.6 !important; }
+  .light .form-control::placeholder { color: #6c757d !important; opacity: 1 !important; }
+  .dark .form-text { color: #adb5bd !important; }
+  .light .form-text { color: #6c757d !important; }
+  
+  .card { box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075); }
+  .navbar { box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  
+  footer { margin-top: auto; }
+  footer a { color: inherit; transition: color 0.2s ease; }
+  footer a:hover { text-decoration: none; }
+  [data-bs-theme="dark"] footer a:hover { color: #4dabf7 !important; }
+  [data-bs-theme="light"] footer a:hover { color: #0d6efd !important; }
+  
+  @media (max-width: 768px) {
+    footer .gap-3 { gap: 1rem; }
+    .card { margin-bottom: 1rem; }
+  }

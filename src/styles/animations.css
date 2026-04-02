@@ -1,0 +1,27 @@
+/* Animations & Toast */
+.btn:hover { transform: translateY(-1px); transition: all 0.2s ease; }
+.demo-btn:hover { transform: none !important; }
+
+.copy-toast {
+  position: fixed;
+  top: 20px; right: 20px;
+  z-index: 9999;
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: white;
+  background: linear-gradient(45deg, #28a745, #20c997);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes fadeIn { to { opacity: 1; } }
+
+.btn-group.btn-group-sm.gap-2 .btn { margin-right: 0.125rem; }
+@media (max-width: 576px) {
+  .btn-group.btn-group-sm { gap: 0.25rem !important; }
+  .demo-btn.text-btn { min-width: 60px !important; font-size: 0.75rem !important; }
+}

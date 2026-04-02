@@ -1,0 +1,30 @@
+/* Theme System - Flash-Proof */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body.light, body.dark {
+    transition: background-color 0.3s ease, color 0.3s ease !important;
+  }
+  
+  body.light {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+  }
+  
+  body.dark {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+  }
+  
+  /* Bootstrap overrides */
+  [data-bs-theme="dark"] {
+    --bs-body-bg: #212529;
+    --bs-body-color: #dee2e6;
+  }
+  [data-bs-theme="light"] {
+    --bs-body-bg: #ffffff;
+    --bs-body-color: #212529;
+  }
