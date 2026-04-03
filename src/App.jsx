@@ -5,8 +5,8 @@
  * - Upload 📁 (JSON only, required untouched)
  * - Clear All 🗑️ (disabled when empty, clears JSON+required+output)
  * - Generate NEVER clears required field
- * - Perfect toolbar: [📁][🗑️][Base][Adv]
- * - 🆕 SNIPPET: Theme-aware + Auto-scroll on show (responsive)
+ * - Toolbar: [📁][🗑️][Base][Adv]
+ * - SNIPPET: Theme-aware + Auto-scroll on show (responsive)
  */
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -42,7 +42,7 @@ function App() {
   
   // Refs
   const fileInputRef = useRef(null);
-  const snippetRef = useRef(null); // 🆕 SNIPPET AUTO-SCROLL
+  const snippetRef = useRef(null); // SNIPPET AUTO-SCROLL
   
   // Copy states
   const [copyStatus, setCopyStatus] = useState('copy');
@@ -54,7 +54,7 @@ function App() {
     setIsClearable(inputJson.trim() !== '{}' && inputJson.trim() !== '');
   }, [inputJson]);
 
-  // 🆕 ULTRA-SMART RESPONSIVE SCROLL
+  // ULTRA-SMART RESPONSIVE SCROLL
   useEffect(() => {
     if (showSnippet && snippetRef.current) {
       requestAnimationFrame(() => {
@@ -78,9 +78,7 @@ function App() {
     }
   }, [showSnippet]);
 
-  /**
-   * Upload JSON File → JSON only (required untouched)
-   */
+  // Upload JSON File → JSON only (required untouched)
   const handleFileUpload = useCallback((e) => {
     const file = e.target.files[0];
     if (file) {
@@ -101,9 +99,7 @@ function App() {
     e.target.value = '';
   }, [t]);
 
-  /**
-   * Clear All → JSON + Required + Output
-   */
+  // Clear All → JSON + Required + Output
   const handleClearAll = useCallback(() => {
     if (!isClearable) return;
     setInputJson('');
@@ -114,9 +110,7 @@ function App() {
     setShowSnippet(false);
   }, [isClearable]);
 
-  /**
-   * Load Demo Data
-   */
+  //Load Demo Data
   const handleLoadDemo = useCallback((type) => {    
     try {
       const demoData = type === 'advanced' ? DEMO_DATA.advanced : DEMO_DATA.base;      
@@ -131,9 +125,7 @@ function App() {
     }
   }, []);
 
-  /**
-   * Convert JSON → Karate Schema (NEVER clears required)
-   */
+  // Convert JSON → Karate Schema (NEVER clears required textfield)
   const handleConvert = useCallback(() => {
     setError(null);
     setOutputSchema('');
@@ -150,9 +142,7 @@ function App() {
     }
   }, [inputJson, requiredFields, t]);
 
-  /**
-   * Copy Schema to Clipboard
-   */
+  // Copy Schema to Clipboard
   const handleCopy = useCallback(() => {
     if (!outputSchema) return;
     copyToClipboard(
@@ -165,9 +155,7 @@ function App() {
     setTimeout(() => setCopyStatus('copy'), 1200);
   }, [outputSchema, t]);
 
-  /**
-   * Copy Karate Snippet
-   */
+  // Copy Karate Snippet
   const handleCopySnippet = useCallback(() => {
     if (!outputSchema) return;
     const snippet = generateKarateSnippet(outputSchema);
@@ -181,9 +169,7 @@ function App() {
     setTimeout(() => setSnippetStatus('copy'), 1200);
   }, [outputSchema, t]);
 
-  /**
-   * 🆕 Download Schema as JSON file
-   */
+  // Download Schema as JSON file
   const handleDownload = useCallback(() => {
     if (!outputSchema) return;
     downloadSchema(outputSchema);
@@ -238,7 +224,7 @@ function App() {
                 <div className="card-header d-flex justify-content-between align-items-center pb-2">
                   <span className="fw-semibold">{t('app.inputJson')}</span>
                   
-                  {/* PERFECT TOOLBAR: Upload + Clear + Demos */}
+                  {/* TOOLBAR: Upload + Clear + Demos */}
                   <div className="btn-group btn-group-sm gap-2" role="group">
                     {/* UPLOAD */}
                     <input 
@@ -324,7 +310,7 @@ function App() {
                 <div className="card-header d-flex justify-content-between align-items-center pb-2">
                   <span>{t('app.generatedSchema')}</span>
                   
-                  {/* 🆕 PERFECT TOOLBAR: Copy + Download (matches input toolbar style) */}
+                  {/* TOOLBAR: Copy + Download (matches input toolbar style) */}
                   <div className="btn-group btn-group-sm gap-2" role="group">
                     {/* COPY BUTTON (existing) */}
                     <button
@@ -340,7 +326,7 @@ function App() {
                       {copyStatus === 'copied' ? '✓' : '📋'}
                     </button>
                     
-                    {/* 🆕 DOWNLOAD BUTTON - Perfect match */}
+                    {/* DOWNLOAD BUTTON - Perfect match */}
                     <button
                       className={`btn btn-sm demo-btn icon-only ${
                         downloadStatus === 'downloaded' 
@@ -368,7 +354,7 @@ function App() {
             </Col>
           </Row>
 
-          {/* 🆕 KARATE SNIPPET - THEME-AWARE + AUTO-SCROLL */}
+          {/* KARATE SNIPPET - THEME-AWARE + AUTO-SCROLL */}
           {showSnippet && outputSchema && (
             <Row className="mt-4">
               <Col xs={12}>
