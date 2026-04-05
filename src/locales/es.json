@@ -1,7 +1,10 @@
 {
   "navbar": {
     "home": "Inicio",
-    "backToHome": "Inicio"
+    "backToHome": "Volver a Inicio",
+    "about": "Acerca de",
+    "changelog": "Changelog",
+    "menu": "Menu"
   },
   "footer": {
     "copyrightPrefix": "© {{year}} ",
@@ -33,5 +36,8 @@
     "uploadJson": "Subir JSON",
     "clearAll": "Limpiar Todo",
     "downloadSchema": "Descargar Esquema"
+  },
+  "about": {
+    "title": "Acerca Karate JSON Schema Converter"
   }
 }

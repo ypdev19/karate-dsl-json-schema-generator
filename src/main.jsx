@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import { GlobalProvider } from './contexts/GlobalContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,8 +8,10 @@ import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <GlobalProvider> 
-      <App />
+    <GlobalProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </GlobalProvider>
   </React.StrictMode>
 );

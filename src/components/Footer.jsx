@@ -1,13 +1,11 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';  // ✅ Internal links
 import { useGlobalContext } from '../contexts/GlobalContext';
 
 const Footer = () => {
   const { theme, t } = useGlobalContext();
-  
   const currentYear = new Date().getFullYear();
-  const termsHref = '/locales/termsOfService.en.md';
-  const privacyHref = '/locales/privacyPolicy.en.md';
 
   return (
     <footer className={`py-4 mt-auto ${theme}`} style={{ borderTop: '1px solid #dee2e6' }} data-bs-theme={theme}>
@@ -30,12 +28,12 @@ const Footer = () => {
           
           <Col xs={12} md="auto" className="text-center text-md-end">
             <small className="d-flex flex-wrap justify-content-center justify-content-md-end gap-3">
-              <a href={termsHref} target="_blank" rel="noopener noreferrer" className="text-decoration-none small">
+              <Link to="/terms" className="text-decoration-none small">
                 {t('footer.termsOfService')}
-              </a>
-              <a href={privacyHref} target="_blank" rel="noopener noreferrer" className="text-decoration-none small">
+              </Link>
+              <Link to="/privacy" className="text-decoration-none small">
                 {t('footer.privacyPolicy')}
-              </a>
+              </Link>
             </small>
           </Col>
         </Row>
