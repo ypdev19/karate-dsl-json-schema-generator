@@ -4,7 +4,7 @@ Client-side tool converting JSON payloads to Karate DSL validation schemas for Q
 
 ## Tech Stack
 
-- Build: Vite | Framework: React 18 (Hooks) | UI: React Bootstrap 5
+- Build: Vite | Framework: React 18 (Hooks) | UI: React Bootstrap 5 | React Router v6
 - Editor: React-Ace + Ace-Builds | Icons: react-icons | Testing: AVA
 - Contexts: GlobalContext (Theme/Lang) | Storage: localStorage | Lang: ES Modules
 
@@ -18,6 +18,10 @@ Client-side tool converting JSON payloads to Karate DSL validation schemas for Q
 - **Toolbar**: `[📁 Upload][🗑️ Clear All][Base Demo][Adv Demo]` - Perfect spacing/sizing
 - Dev: Real-time JSON validation, zero-config, no backend/auth/routing
 - **Generate behavior**: NEVER auto-clears required field (stays until Clear All)
+- **ROUTING:** / (Home Converter) | /about | /privacy | /terms | /changelog
+- NAVBAR: About/Changelog (+ Home button on other pages) | Footer: Terms/Privacy
+- MD PAGES: Privacy/Terms load language-specific .md files (en/es) with ReactMarkdown
+- CHANGELOG: Grouped by month/year with bullet lists + change count badges
 
 ## Fixes Applied
 - **1920x1080+ Centering**: `.main-content-container` (1400px max-width)
@@ -33,11 +37,13 @@ Client-side tool converting JSON payloads to Karate DSL validation schemas for Q
 ## Application Flow
 
 - **Empty start** → Dark theme (persistent) → Centered 1400px container
-- Navbar full-width responsive
+- Navbar full-width responsive: [Logo][About][Changelog][Lang][Theme]
 - Editors 5-2-5 grid (lg+), stacked mobile
 - **Toolbar**: Upload/Clear/Demos → Clear All disabled initially
 - Convert always prominent
 - Sticky footer responsive
+- Routes: / (Converter) | /about | /privacy | /terms | /changelog
+- Footer: Terms/Privacy (internal routing)
 
 ## Internal Conversion Logic
 
@@ -52,10 +58,25 @@ public/
 ├── index.html
 └── locales/ (.md files)
 src/
+├── styles/
+│   ├── theme.css
+│   ├── layout.css
+│   ├── editor.css
+│   ├── buttons.css
+│   ├── snippet.css
+│   ├── components.css
+│   └── animations.css
 ├── components/
 │   ├── JsonEditor.jsx
 │   ├── NavBar.jsx
+│   ├── Layout.jsx  
 │   └── Footer.jsx
+├── pages/      ← ROUTING PAGES
+│   ├── Home.jsx ← Original converter (wrapped)
+│   ├── About.jsx
+│   └── Changelog.jsx 
+│   └── PrivacyPolicy.jsx
+│   └── TermsOfService.jsx
 ├── hooks/
 │   └── useGlobalContext.jsx
 │   └── useTranslation.js
@@ -77,12 +98,7 @@ src/
 
 Metrics: <100ms conversion, <5s paste→copy, 100% client-side, offline-ready
 
-As next tasks: 
-
-1. Let's do a code refactor of app.jsx and index.css, the files are now just too big and it's getting hard to maintain
-2. As the refactor is done, leave the important comments in the code for future guidance but remove all emojis from those comments, just text.
-3. Super important: DO NOT BREAK THE APP LOGIC BY DOING THIS REFACTOR, EVERYTHING MUST BE FULLY FUNCTIONAL AFTER THAT'S DONE
-4. Create new components, function files, utils if needed
+As next task: 
 
 Important to keep under consideration for what we're going to do:
 
@@ -90,17 +106,8 @@ Important to keep under consideration for what we're going to do:
 - Keep the good practice of implementing functional components.
 - Follow coding best practices.
 - If you need an existing code, ask for it.
-- DO NOT break any existing app core Logic
+- Super important: DO NOT BREAK THE APP LOGIC BY DOING THIS REFACTOR, EVERYTHING MUST BE FULLY FUNCTIONAL AFTER YOU'RE DONE
 - By the time we complete this part, update the prompt given with these new changes (project structure, project summary)
 
-Here's the code of App.jsx and index.css, tell me what other code you need to check:
-
-
-I want to add an about page to describe what the tool is about as part of the marketing strategy for people to know more about the tool/app, what is better for UX, a modal or an individual page? The content won't be too long btw, it will include how to use the app maybe
-
-Politic pages routing
-
-I have the PrivacyPolicy.jsx and TermsOfService.jsx that currently read md files with the content and if i click those links in the footer, these open in a new tab (as expected) but not inside the container of the app but just the raw md file.
-The idea is for this content to load in the app body, it could be in a card body centered and fully responsive just like the schema converter. Here are the files i think you need to do the fix.
-
+Here are the files:
 
