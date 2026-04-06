@@ -1,4 +1,3 @@
-/* src/index.css - FIXED IMPORT ORDER */
 
    @import './styles/theme.css';
    @import './styles/layout.css';
@@ -10,7 +9,7 @@
    
 
    /* ==========================================================================
-      2. GLOBAL STYLING
+      GLOBAL STYLING
       ========================================================================== */
    :root {
      --editor-dark-bg: #1e1e1e;
