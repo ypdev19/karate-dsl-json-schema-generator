@@ -1,0 +1,33 @@
+[
+    {
+      "date": "March 2024",
+      "changes": [
+        "✅ Added full routing (About, Privacy, Terms, Changelog)",
+        "✅ Home button on nav (hidden on home page)",
+        "✅ Markdown rendering for Privacy/Terms with language support",
+        "✅ 100% responsive navbar (mobile hamburger → desktop)",
+        "✅ Release v2.0.0"
+      ]
+    },
+    {
+      "date": "February 2024",
+      "changes": [
+        "✅ Ace Editor integration (JSON syntax highlighting)",
+        "✅ File upload (JSON only)",
+        "✅ Demo data (Base + Advanced)",
+        "✅ Full responsive design (mobile→4K)",
+        "✅ Snippet auto-scroll (smart, no bounceback)",
+        "✅ Release v1.2.0"
+      ]
+    },
+    {
+      "date": "January 2024",
+      "changes": [
+        "✅ Core JSON → Karate schema conversion",
+        "✅ Required fields support",
+        "✅ Dark theme (persistent)",
+        "✅ i18n ready (EN/ES)",
+        "✅ Release v1.0.0"
+      ]
+    }
+  ]
