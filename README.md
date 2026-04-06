@@ -201,10 +201,16 @@ TODO
 
 - [x] Base Project set up and package update
 - [x] Add Nav bar and footer components
-- [] Language switch
+- [x] Language switch
 - [x] Theme switch
-- [] UI improvements
+- [x] UI improvements
+- [x] Change log page
+- [x] About page
+- [x] Verify responsiveness
+- [] i18n content check
 - [] Unit tests
+- [] Pre prod testing
+- [] Prod testing
 
 Important to keep under consideration for what we're going to do:
 
@@ -214,15 +220,8 @@ Important to keep under consideration for what we're going to do:
 - If you need an existing code, ask for it.
 - By the time we complete this part, update this same prompt (project structure, project summary)
 
-In next prompt I will send the full code base that I got so far so you can implement this requirements.
-
-Now, let's get into the actual project requirements:
 
 -----------------------------
-
-<https://app.blackbox.ai/chat/qmoiBVV>
-<https://app.blackbox.ai/chat/QgczNPm>
-
 -----------------------------
 
 Business Value: Saves **hours of manual Karate schema creation** per tester. Provides production-grade UX with theming, internationalization readiness, and persistent settings. Enables rapid API test development with consistent DSL syntax across global teams. Perfect onboarding tool for Karate Framework adoption.
