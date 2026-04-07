@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import { useGlobalContext } from '../contexts/GlobalContext';
 
 const PrivacyPolicy = () => {
-  const { theme, t, language } = useGlobalContext();  // ✅ ADDED language
+  const { theme, t, language } = useGlobalContext();
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -29,9 +29,8 @@ const PrivacyPolicy = () => {
       }
     };
     loadContent();
-  }, [language]); // ✅ Now language is defined
+  }, [language]);
 
-  // ✅ markdownComponents (unchanged)
   const markdownComponents = {
     h1: ({ children }) => <h1 className={`fw-bold mb-4 ${theme === 'dark' ? 'text-light' : 'text-dark'}`}>{children}</h1>,
     h2: ({ children }) => <h2 className={`mt-4 mb-3 fw-semibold ${theme === 'dark' ? 'text-light' : 'text-dark'}`}>{children}</h2>,
