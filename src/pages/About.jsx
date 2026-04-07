@@ -1,44 +1,89 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Row, Col } from 'react-bootstrap';
 import { useGlobalContext } from '../contexts/GlobalContext';
+import ReactMarkdown from 'react-markdown';
 
 const About = () => {
-  const { t, theme } = useGlobalContext();
+  const { t, theme, language } = useGlobalContext();
+  const [content, setContent] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadContent = async () => {
+      try {
+        const lang = language === 'es' ? 'es' : 'en';
+        const response = await fetch(`/locales/about.${lang}.md`);
+        if (!response.ok) throw new Error(`Failed to load ${lang} content`);
+        const text = await response.text();
+        setContent(text);
+      } catch (error) {
+        console.error('Error loading page:', error);
+        try {
+          const fallback = await fetch('/locales/about.en.md');
+          setContent(await fallback.text());
+        } catch {
+          setContent('# Content not available.');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadContent();
+  }, [language]);
+
+  const markdownComponents = {
+    h1: ({ children }) => <h1 className={`fw-bold mb-4 ${theme === 'dark' ? 'text-light' : 'text-dark'}`}>{children}</h1>,
+    h2: ({ children }) => <h2 className={`mt-4 mb-3 fw-semibold ${theme === 'dark' ? 'text-light' : 'text-dark'}`}>{children}</h2>,
+    h3: ({ children }) => <h3 className={`mt-3 mb-2 fw-semibold ${theme === 'dark' ? 'text-light' : 'text-dark'}`}>{children}</h3>,
+    p: ({ children }) => <p className={`mb-3 ${theme === 'dark' ? 'text-light' : ''}`}>{children}</p>,
+    strong: ({ children }) => <strong className={theme === 'dark' ? 'text-light' : 'text-dark'}>{children}</strong>,
+    em: ({ children }) => <em className="text-muted">{children}</em>,
+    ul: ({ children }) => <ul className="mb-3 ps-4">{children}</ul>,
+    ol: ({ children }) => <ol className="mb-3 ps-4">{children}</ol>,
+    li: ({ children }) => <li className={`mb-1 ${theme === 'dark' ? 'text-light' : ''}`}>{children}</li>,
+    a: ({ children, href }) => (
+      <a 
+        href={href} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className={`text-decoration-none ${theme === 'dark' ? 'text-light' : 'text-primary'} fw-semibold`}
+      >
+        {children}
+      </a>
+    ),
+    code: ({ children }) => (
+      <code className={`bg-${theme === 'dark' ? 'dark-subtle' : 'light'} p-1 rounded fw-mono small`}>
+        {children}
+      </code>
+    ),
+    blockquote: ({ children }) => (
+      <blockquote className={`border-start border-3 ps-3 my-3 ${theme === 'dark' ? 'border-light' : 'border-primary'}`}>
+        {children}
+      </blockquote>
+    )
+  };
+
+  if (loading) {
+    return (
+      <Row className="justify-content-center">
+        <Col xs={12} className="text-center py-5">
+          <div className={`spinner-border ${theme === 'dark' ? 'text-light' : 'text-primary'}`} role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-2">{t('app.loading', { defaultValue: 'Loading...' })}</p>
+        </Col>
+      </Row>
+    );
+  }
 
   return (
     <div className="page-section">
-      <h1 className={`mb-4 fw-bold ${theme === 'dark' ? 'text-light' : 'text-dark'}`}>
-        {t('about.title', { defaultValue: 'About Karate JSON Schema Converter' })}
-      </h1>
-      
-      <div className="about-content">
-        <p className="lead mb-4">
-          Client-side tool that converts JSON payloads to Karate DSL validation schemas.
-        </p>
-        
-        <div className="row g-4">
-          <div className="col-md-6">
-            <h3>✨ Features</h3>
-            <ul className="list-unstyled">
-              <li className="mb-2">• 100% offline, no backend</li>
-              <li className="mb-2">• Real-time type inference</li>
-              <li className="mb-2">• Theme switching (Dark/Light)</li>
-              <li className="mb-2">• Multi-language (EN/ES)</li>
-              <li>• Responsive design</li>
-            </ul>
-          </div>
-          <div className="col-md-6">
-            <h3>🚀 Tech Stack</h3>
-            <ul className="list-unstyled">
-              <li className="mb-2">• React 18 + Vite</li>
-              <li className="mb-2">• React Bootstrap 5</li>
-              <li className="mb-2">• Ace Editor (syntax highlighting)</li>
-              <li>• 100% client-side conversion</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <ReactMarkdown components={markdownComponents}>
+        {content}
+      </ReactMarkdown>
     </div>
   );
+
 };
 
 export default About;
