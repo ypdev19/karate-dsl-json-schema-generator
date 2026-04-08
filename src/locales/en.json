@@ -9,7 +9,7 @@
   "footer": {
     "copyrightPrefix": "© {{year}} ",
     "copyrightSuffix": " . All rights reserved.",
-    "brandName": "CodeQAZone",
+    "brandName": "Code & QA Zone",
     "termsOfService": "Terms of Service",
     "privacyPolicy": "Privacy Policy"
   },
@@ -22,7 +22,7 @@
     "requiredFields": "Required Fields (Leave empty to treat all fields as required.)",
     "requiredFieldsHelp": "Leave empty to treat all fields as required.",
     "inputPlaceholder": "e.g. id, name, user.email, tags",
-    "convertToSchema": "Convert to Schema",
+    "convertToSchema": "Convert",
     "showSnippet": "Show Snippet",
     "hideSnippet": "Hide Snippet",
     "inputJson": "Input JSON",

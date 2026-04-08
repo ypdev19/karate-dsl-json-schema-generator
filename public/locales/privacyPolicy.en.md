@@ -2,7 +2,7 @@
 
 Your privacy matters.
 
-The [Code & QA Zone](https://www.codeqazone.com/) Invoice Generator is designed to work **without collecting personal data**.
+The [Code & QA Zone](https://www.codeqazone.com/) **JSON to Karate DSL Schema Converter** is designed to work **without collecting personal data**.
 
 ---
 
@@ -11,7 +11,7 @@ The [Code & QA Zone](https://www.codeqazone.com/) Invoice Generator is designed 
 We do **NOT**:
 
 * Collect personal information
-* Store invoices on our servers
+* Store any JSON on our servers
 * Require accounts or logins
 * Share or sell user data
 
@@ -19,13 +19,12 @@ We do **NOT**:
 
 ## 3. Local Storage
 
-Invoice data is stored **only in your browser’s localStorage**.
+Language and Theme preferences will be the **only data stored in your browser’s localStorage**.
 
 This means:
 
-* Data never leaves your device
-* Only you can access it
-* Clearing browser data will remove stored invoices
+* Only you can access that data
+* Clearing browser data will remove the stored preferences
 
 ---
 
