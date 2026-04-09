@@ -4,8 +4,64 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Karate JSON Schema Converter</title>
-    <!-- 🎯 BULLETPROOF: INLINE CSS OVERRIDES EVERYTHING -->
+    <title>Karate JSON Schema Converter - Free Online Tool for API Testing</title>
+    <meta name="description" content="Convert JSON payloads to Karate DSL validation schemas instantly. Free, offline, no signup required. Perfect for QA testers and API developers. Generate match response schemas in seconds." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Karate JSON Schema Converter - Free Online Tool for API Testing" />
+    <meta property="og:description" content="Convert JSON to Karate DSL schemas instantly. Free, offline tool for QA testers and API developers. Generate match response validation in seconds." />
+    <meta property="og:url" content="https://jsonkaratedslgenerator.codeqazone.com" />
+    <meta property="og:image" content="https://jsonkaratedslgenerator.codeqazone.com/og-image.jpg" />
+    <meta property="og:site_name" content="JSON Karate DSL Generator" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Karate JSON Schema Converter - Free Online Tool" />
+    <meta name="twitter:description" content="JSON → Karate Schema converter. Instant, offline, perfect for API testing." />
+    <meta name="twitter:image" content="https://jsonkaratedslgenerator.codeqazone.com/og-image.jpg" />
+    <meta name="twitter:site" content="@codeqazone" />
+    <meta name="keywords" content="karate dsl, json schema converter, api testing, karate framework, json to karate, match response, qa testing tool, api validation, offline json converter, codeqazone" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="CodeQAZone" />
+    <meta name="theme-color" content="#121212" />
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://jsonkaratedslgenerator.codeqazone.com/" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "JSON to Karate DSL Schema Converter - Free tool | Code & QA Zone",
+        "alternateName": "JSON schema Karate DSL Generator",
+        "description": "Free online tool to convert JSON payloads to Karate DSL validation schemas for API testing by Code & QA Zone",
+        "url": "https://jsonkaratedslgenerator.codeqazone.com",
+        "datePublished": "2026-04-09",
+        "dateModified": "2026-04-09",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "ypdev19",
+          "url": "https://codeqazone.com",
+          "sameAs": [
+            "https://twitter.com/ypdev19",
+            "https://github.com/ypdev19"
+          ]
+        },
+        "featureList": [
+          "JSON to Karate Schema conversion",
+          "Offline capable",
+          "Dark/Light theme support",
+          "Multi-language (EN/ES)",
+          "Instant schema download",
+          "Type inference (#string/#number/#[])",
+          "Required field detection"
+        ],
+        "inLanguage": ["en-US", "es-ES"]
+      }
+      </script>
+
     <style>
       * { 
         box-sizing: border-box; 
@@ -18,7 +74,6 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       }
       
-      /* 🎯 HIGHEST SPECIFICITY - NO FLASH POSSIBLE */
       body.light {
         background-color: #f8f9fa !important;
         color: #212529 !important;
@@ -31,7 +86,6 @@
     </style>
   </head>
   <body class="dark">
-    <!-- 🎯 BULLETPROOF JS - Runs BEFORE CSS paint -->
     <script>
       (() => {
         try {
@@ -39,15 +93,23 @@
           document.documentElement.className = savedTheme;
           document.body.className = savedTheme;
           
-          // 🎯 FORCE STYLE REPAINT
           document.body.style.backgroundColor = savedTheme === 'light' ? '#f8f9fa' : '#121212';
           document.body.style.color = savedTheme === 'light' ? '#212529' : '#e0e0e0';
         } catch(e) {
-          // Fallback to dark
           document.body.className = 'dark';
         }
       })();
     </script>
+    <noscript>
+      <div>
+        <h2 style="color: #dc3545; margin-top: 0;">Karate JSON Schema Converter - Free Online Tool for API Testing</h2>
+        <p style="font-size: 16px; line-height: 1.5;">
+          Convert, copy and download your json schemas instantly.
+        </p>
+        <p><em>Please enable JavaScript to use this tool.</em></p>
+        <a href="https://invoicegenerator.codeqazone.com/" style="background: #0d6efd; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">Try Invoice Generator</a>
+      </div>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
