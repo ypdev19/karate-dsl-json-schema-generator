@@ -1,7 +1,3 @@
-/**
- * Home.jsx: 100% ORIGINAL CONVERTER - Just wrapped for routing
- * All state, handlers, editors EXACTLY as App.jsx was
- */
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { useGlobalContext } from '../contexts/GlobalContext';
@@ -19,7 +15,6 @@ import {
 const Home = () => {
   const { theme, t } = useGlobalContext();
 
-  // 👇 ALL ORIGINAL STATE/REFS - UNCHANGED
   const [inputJson, setInputJson] = useState('');
   const [requiredFields, setRequiredFields] = useState('');
   const [outputSchema, setOutputSchema] = useState('');
@@ -34,7 +29,6 @@ const Home = () => {
   const [snippetStatus, setSnippetStatus] = useState('copy');
   const [downloadStatus, setDownloadStatus] = useState('download');
 
-  // 👇 ALL ORIGINAL LOGIC - 100% UNCHANGED
   useEffect(() => {
     setIsClearable(inputJson.trim() !== '{}' && inputJson.trim() !== '');
   }, [inputJson]);
@@ -96,6 +90,13 @@ const Home = () => {
       setOutputSchema('');
       setError(null);
       setIsInputError(false);
+      
+      if (type === 'advanced') {
+        setRequiredFields('id, user.email');
+      } else {
+        setRequiredFields(''); // Clear for Base Demo
+      }
+      
     } catch (err) {
       console.error('Demo error:', err);
     }
@@ -138,7 +139,6 @@ const Home = () => {
     setTimeout(() => setDownloadStatus('download'), 1200);
   }, [outputSchema]);
 
-  // 👇 ALL ORIGINAL JSX - EXACT SAME STRUCTURE
   return (
     <>
       {/* REQUIRED FIELDS */}
